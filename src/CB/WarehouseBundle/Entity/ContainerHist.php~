@@ -1,0 +1,294 @@
+<?php
+
+namespace CB\WarehouseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ContainerHist
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class ContainerHist
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="containerId", type="integer")
+     */
+    private $containerId;
+    
+    /**
+     * Contains the number of the operation that has archived the container:
+     * - 1: Deleted
+     * - 2: Created
+     * - 3: Modified
+     * 
+     * @var integer
+     *
+     * @ORM\Column(name="containerOperationId", type="integer")
+     */
+    private $containerOperationId;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=50)
+     */
+    private $code;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="maxWidth", type="integer", nullable=true)
+     */
+    private $maxWidth;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="maxVolume", type="integer", nullable=true)
+     */
+    private $maxVolume;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sizeX", type="integer", nullable=true)
+     */
+    private $sizeX;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sizeY", type="integer", nullable=true)
+     */
+    private $sizeY;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sizeZ", type="integer", nullable=true)
+     */
+    private $sizeZ;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lastLocationid", type="integer")
+     */
+    private $lastLocationId;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reason", type="string", length=100, nullable=true)
+     */
+    private $reason;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Container
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set maxWidth
+     *
+     * @param integer $maxWidth
+     * @return Container
+     */
+    public function setMaxWidth($maxWidth)
+    {
+        $this->maxWidth = $maxWidth;
+
+        return $this;
+    }
+
+    /**
+     * Get maxWidth
+     *
+     * @return integer 
+     */
+    public function getMaxWidth()
+    {
+        return $this->maxWidth;
+    }
+
+    /**
+     * Set maxVolume
+     *
+     * @param integer $maxVolume
+     * @return Container
+     */
+    public function setMaxVolume($maxVolume)
+    {
+        $this->maxVolume = $maxVolume;
+
+        return $this;
+    }
+
+    /**
+     * Get maxVolume
+     *
+     * @return integer 
+     */
+    public function getMaxVolume()
+    {
+        return $this->maxVolume;
+    }
+
+    /**
+     * Set sizeX
+     *
+     * @param integer $sizeX
+     * @return Container
+     */
+    public function setSizeX($sizeX)
+    {
+        $this->sizeX = $sizeX;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeX
+     *
+     * @return integer 
+     */
+    public function getSizeX()
+    {
+        return $this->sizeX;
+    }
+
+    /**
+     * Set sizeY
+     *
+     * @param integer $sizeY
+     * @return Container
+     */
+    public function setSizeY($sizeY)
+    {
+        $this->sizeY = $sizeY;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeY
+     *
+     * @return integer 
+     */
+    public function getSizeY()
+    {
+        return $this->sizeY;
+    }
+
+    /**
+     * Set sizeZ
+     *
+     * @param integer $sizeZ
+     * @return Container
+     */
+    public function setSizeZ($sizeZ)
+    {
+        $this->sizeZ = $sizeZ;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeZ
+     *
+     * @return integer 
+     */
+    public function getSizeZ()
+    {
+        return $this->sizeZ;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     * @return Container
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+}

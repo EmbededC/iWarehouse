@@ -1,0 +1,249 @@
+<?php
+
+namespace CB\WarehouseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * StockHist
+ * 
+ * Historical table with all the stock changes:
+ * - When a stock is deleted saves the old stock with the reason and user of the 
+ * deletion.
+ * - When a stock is created nothing is saved.
+ * - When a stock is splitted saves the old stock with the split reason, the 
+ * user that splits.
+ * - When a stock is merged saves the old stocks used to merge, the merge 
+ * reason, the user that merges and the id of the new stock.
+ * - When a stock is modified saves the old stock with the modify reason, the 
+ * user that modifies.
+ * Note: Each stock saves his antecessor in a parentStockId field, except if the
+ * stock is new or is merged.
+ * 
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class StockHist
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * Contains the id of the stock in the table Stock
+     * 
+     * @var integer
+     *
+     * @ORM\Column(name="stockId", type="integer")
+     */
+    private $stockId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="parentStockId", type="integer", nullable=true)
+     */
+    private $parentStockId;
+    
+    /**
+     * Contains the number of the operation that has archived the stock:
+     * - 1: Deleted
+     * - 2: Created
+     * - 3: Splited
+     * - 4: Merged
+     * - 5: Modified
+     * 
+     * @var integer
+     *
+     * @ORM\Column(name="stockOperationId", type="integer")
+     */
+    private $stockOperationId;
+    
+    /**
+     * Only has value if the stock is merged
+     * 
+     * @var integer
+     *
+     * @ORM\Column(name="childStockId", type="integer", nullable=true)
+     */
+    private $childStockId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantity", type="decimal")
+     */
+    private $quantity;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lot", type="string", length=50, nullable=true)
+     */
+    private $lot;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sn", type="string", length=100, nullable=true)
+     */
+    private $sn;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="productId", type="integer")
+     */
+    private $productId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="containerId", type="integer")
+     */
+    private $containerId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="locationId", type="integer")
+     */
+    private $locationId;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="userId", type="integer")
+     */
+    private $userId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reason", type="string", length=100, nullable=true)
+     */
+    private $reason;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param string $quantity
+     * @return Stock
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return string 
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set lot
+     *
+     * @param string $lot
+     * @return Stock
+     */
+    public function setLot($lot)
+    {
+        $this->lot = $lot;
+
+        return $this;
+    }
+
+    /**
+     * Get lot
+     *
+     * @return string 
+     */
+    public function getLot()
+    {
+        return $this->lot;
+    }
+
+    /**
+     * Set sn
+     *
+     * @param string $sn
+     * @return Stock
+     */
+    public function setSn($sn)
+    {
+        $this->sn = $sn;
+
+        return $this;
+    }
+
+    /**
+     * Get sn
+     *
+     * @return string 
+     */
+    public function getSn()
+    {
+        return $this->sn;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return strval($this->getQuantity());
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     * @return Stock
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+}
