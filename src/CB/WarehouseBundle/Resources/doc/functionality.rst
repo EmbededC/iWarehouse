@@ -1,4 +1,4 @@
-iWAREHOUSE Use Cases
+iWarehouse Use Cases
 ====================
 
 INITIAL CONFIGURATION (As an administration)
