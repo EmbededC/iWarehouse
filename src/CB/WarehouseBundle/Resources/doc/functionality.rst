@@ -1,10 +1,10 @@
 INITIAL CONFIGURATION (As an administration)
 =====================
-1)I need to set a warehouse name and create a admin user with name and password
-2)I need to create a in buffer location, an out buffer location and some rack locations
-3)I need to create some products
-4)Optionally I need to create presentations
-5)Optionally I need to create product or presentation alias. Optionally the application can suggest an alias.
+*1)I need to set a warehouse name and create a admin user with name and password
+*2)I need to create a in buffer location, an out buffer location and some rack locations
+*3)I need to create some products
+*4)Optionally I need to create presentations
+*5)Optionally I need to create product or presentation alias. Optionally the application can suggest an alias.
 
 RECEIVING PROCESS (As an operator)
 =====================
