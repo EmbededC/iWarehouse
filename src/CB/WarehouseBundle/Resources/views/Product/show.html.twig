@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Product</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Shortdesc</th>
+                <td>{{ entity.shortDesc }}</td>
+            </tr>
+            <tr>
+                <th>Lotrequiredinreception</th>
+                <td>{{ entity.lotRequiredInReception }}</td>
+            </tr>
+            <tr>
+                <th>Lotrequiredinexpedition</th>
+                <td>{{ entity.lotRequiredInExpedition }}</td>
+            </tr>
+            <tr>
+                <th>Snrequiredinreception</th>
+                <td>{{ entity.snRequiredInReception }}</td>
+            </tr>
+            <tr>
+                <th>Snrequiredinexpedition</th>
+                <td>{{ entity.snRequiredInExpedition }}</td>
+            </tr>
+            <tr>
+                <th>Isactive</th>
+                <td>{{ entity.active }}</td>
+            </tr>
+            <tr>
+                <th>Createddate</th>
+                <td>{{ entity.createdDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Updateddate</th>
+                <td>{{ entity.updatedDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('product') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('product_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

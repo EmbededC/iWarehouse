@@ -1,0 +1,3 @@
+# CBWarehouseBundle routes
+_cb_warehouse:
+    resource: "@CBWarehouseBundle/Controller"

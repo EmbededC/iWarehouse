@@ -16,4 +16,15 @@ class DefaultController extends Controller
     {
         return array('name' => $name);
     }
+    
+    /**
+     * @Route("/reception")
+     * @Template()
+     */
+    public function receptionAction()
+    {
+        $order = null;
+        
+        
+    }
 }

@@ -34,19 +34,22 @@ class Stock
      * takes null.
      * - If this stock is modified, the parent is archived into the historical 
      * table and takes the id of the parent
-     *  
-     * @var integer
-     *
-     * @ORM\Column(name="parentStockId", type="integer", nullable=true)
      */
-    private $parentStockId;
+    //private $parentStockId;
 
     /**
-     * @var string
+     * @var decimal
      *
      * @ORM\Column(name="quantity", type="decimal")
      */
     private $quantity;
+    
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="base_quantity", type="decimal")
+     */
+    private $baseQuantity;
 
     /**
      * @var string
@@ -129,7 +132,12 @@ class Stock
      * @ORM\Column(name="objectType", type="integer")
      */
     private $objectType;
-
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="ProductPresentations", inversedBy="stocks")
+     * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id")
+     */
+    protected $presentation;
 
     /**
      * Get id
@@ -270,22 +278,22 @@ class Stock
      * @param integer $parentStockId
      * @return Stock
      */
-    public function setParentStockId($parentStockId)
-    {
-        $this->parentStockId = $parentStockId;
-
-        return $this;
-    }
+    //public function setParentStockId($parentStockId)
+    //{
+    //    $this->parentStockId = $parentStockId;
+    //
+    //    return $this;
+    //}
 
     /**
      * Get parentStockId
      *
      * @return integer 
      */
-    public function getParentStockId()
-    {
-        return $this->parentStockId;
-    }
+    //public function getParentStockId()
+    //{
+    //    return $this->parentStockId;
+    //}
 
     /**
      * Set createdDate
@@ -423,5 +431,51 @@ class Stock
     public function getProductionDate()
     {
         return $this->productionDate;
+    }
+
+    /**
+     * Set objectId
+     *
+     * @param integer $objectId
+     * @return Stock
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId
+     *
+     * @return integer 
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set objectType
+     *
+     * @param integer $objectType
+     * @return Stock
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType
+     *
+     * @return integer 
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
     }
 }

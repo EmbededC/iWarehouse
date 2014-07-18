@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Product
  *
- * @ORM\Table()
+ * @ORM\Table(name="product")
  * @ORM\Entity
  */
 class Product
@@ -45,14 +45,14 @@ class Product
     /**
      * @var boolean
      *
-     * @ORM\Column(name="lotRequiredInReception", type="boolean")
+     * @ORM\Column(name="lot_required_in_reception", type="boolean")
      */
     private $lotRequiredInReception;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="lotRequiredInExpedition", type="boolean")
+     * @ORM\Column(name="lot_required_in_expedition", type="boolean")
      */
     private $lotRequiredInExpedition;
 
@@ -73,9 +73,9 @@ class Product
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isActive", type="boolean")
+     * @ORM\Column(name="active", type="boolean")
      */
-    private $isActive;
+    private $active;
     
     /**
      * @var \DateTime
@@ -352,28 +352,6 @@ class Product
         return $this->createdDate;
     }
 
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     * @return Product
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean 
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
 
     /**
      * Set createdDate

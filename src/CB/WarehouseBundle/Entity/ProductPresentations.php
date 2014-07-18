@@ -111,6 +111,11 @@ class ProductPresentations
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     protected $product;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Stock", mappedBy="presentation")
+     */
+    protected $stocks;
 
 
     /**
@@ -207,6 +212,7 @@ class ProductPresentations
      */
     public function __construct()
     {
+        $this->stocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -427,5 +433,38 @@ class ProductPresentations
     public function getBaseUnitQuantity()
     {
         return $this->baseUnitQuantity;
+    }
+
+    /**
+     * Add stocks
+     *
+     * @param \CB\WarehouseBundle\Entity\Stock $stocks
+     * @return ProductPresentations
+     */
+    public function addStock(\CB\WarehouseBundle\Entity\Stock $stocks)
+    {
+        $this->stocks[] = $stocks;
+
+        return $this;
+    }
+
+    /**
+     * Remove stocks
+     *
+     * @param \CB\WarehouseBundle\Entity\Stock $stocks
+     */
+    public function removeStock(\CB\WarehouseBundle\Entity\Stock $stocks)
+    {
+        $this->stocks->removeElement($stocks);
+    }
+
+    /**
+     * Get stocks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStocks()
+    {
+        return $this->stocks;
     }
 }

@@ -34,19 +34,22 @@ class Stock
      * takes null.
      * - If this stock is modified, the parent is archived into the historical 
      * table and takes the id of the parent
-     *  
-     * @var integer
-     *
-     * @ORM\Column(name="parentStockId", type="integer", nullable=true)
      */
-    private $parentStockId;
+    //private $parentStockId;
 
     /**
-     * @var string
+     * @var decimal
      *
      * @ORM\Column(name="quantity", type="decimal")
      */
     private $quantity;
+    
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="base_quantity", type="decimal")
+     */
+    private $baseQuantity;
 
     /**
      * @var string
@@ -129,7 +132,12 @@ class Stock
      * @ORM\Column(name="objectType", type="integer")
      */
     private $objectType;
-
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="ProductPresentations", inversedBy="stocks")
+     * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id")
+     */
+    protected $presentation;
 
     /**
      * Get id
@@ -270,22 +278,22 @@ class Stock
      * @param integer $parentStockId
      * @return Stock
      */
-    public function setParentStockId($parentStockId)
-    {
-        $this->parentStockId = $parentStockId;
-
-        return $this;
-    }
+    //public function setParentStockId($parentStockId)
+    //{
+    //    $this->parentStockId = $parentStockId;
+    //
+    //    return $this;
+    //}
 
     /**
      * Get parentStockId
      *
      * @return integer 
      */
-    public function getParentStockId()
-    {
-        return $this->parentStockId;
-    }
+    //public function getParentStockId()
+    //{
+    //    return $this->parentStockId;
+    //}
 
     /**
      * Set createdDate
@@ -469,5 +477,51 @@ class Stock
     public function getObjectType()
     {
         return $this->objectType;
+    }
+
+    /**
+     * Set baseQuantity
+     *
+     * @param string $baseQuantity
+     * @return Stock
+     */
+    public function setBaseQuantity($baseQuantity)
+    {
+        $this->baseQuantity = $baseQuantity;
+
+        return $this;
+    }
+
+    /**
+     * Get baseQuantity
+     *
+     * @return string 
+     */
+    public function getBaseQuantity()
+    {
+        return $this->baseQuantity;
+    }
+
+    /**
+     * Set presentation
+     *
+     * @param \CB\WarehouseBundle\Entity\ProductPresentations $presentation
+     * @return Stock
+     */
+    public function setPresentation(\CB\WarehouseBundle\Entity\ProductPresentations $presentation = null)
+    {
+        $this->presentation = $presentation;
+
+        return $this;
+    }
+
+    /**
+     * Get presentation
+     *
+     * @return \CB\WarehouseBundle\Entity\ProductPresentations 
+     */
+    public function getPresentation()
+    {
+        return $this->presentation;
     }
 }

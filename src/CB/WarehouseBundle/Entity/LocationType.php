@@ -45,21 +45,21 @@ class LocationType
     /**
      * @var integer
      *
-     * @ORM\Column(name="sizeX", type="integer")
+     * @ORM\Column(name="sizeX", type="integer", nullable=true)
      */
     private $sizeX;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sizeY", type="integer")
+     * @ORM\Column(name="sizeY", type="integer", nullable=true)
      */
     private $sizeY;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sizeZ", type="integer")
+     * @ORM\Column(name="sizeZ", type="integer", nullable=true)
      */
     private $sizeZ;
     
@@ -316,5 +316,15 @@ class LocationType
     public function getLocations()
     {
         return $this->locations;
+    }
+    
+    /**
+     * ToString
+     *
+     * @return string
+     */
+    public function __ToString()
+    {
+        return $this->name;
     }
 }

@@ -111,6 +111,11 @@ class ProductPresentations
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     protected $product;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Stock", mappedBy="presentation")
+     */
+    protected $stocks;
 
 
     /**
@@ -207,6 +212,7 @@ class ProductPresentations
      */
     public function __construct()
     {
+        $this->stocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
