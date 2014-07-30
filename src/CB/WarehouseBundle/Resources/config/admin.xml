@@ -4,10 +4,40 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="sonata.admin.post" class="CB\WarehouseBundle\Admin\ProductAdmin">
+        <service id="iwarehouse.admin.product" class="CB\WarehouseBundle\Admin\ProductAdmin">
             <tag name="sonata.admin" manager_type="orm" group="Products" label="Product"/>
             <argument />
             <argument>CB\WarehouseBundle\Entity\Product</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productalias" class="CB\WarehouseBundle\Admin\ProductAliasAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Alias"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductAlias</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productbaseunit" class="CB\WarehouseBundle\Admin\ProductBaseUnitAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Base Unit"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductBaseUnit</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productpresentation" class="CB\WarehouseBundle\Admin\ProductPresentationAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Presentation"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductPresentations</argument>
             <argument />
             <call method="setTranslationDomain">
                 <argument>WarehouseBundle</argument>
