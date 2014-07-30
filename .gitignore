@@ -7,6 +7,7 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
+bin
 
 # Configuration files
 app/config/parameters.ini
@@ -14,4 +15,7 @@ app/config/parameters.yml
 
 # Composer
 composer.phar
-/nbproject/private/
+
+# IDE
+nbproject
+.idea

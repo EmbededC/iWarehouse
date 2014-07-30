@@ -2,9 +2,9 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     iwarehouse
-    database_user:     iwarehouse
-    database_password: iwarehouse
+    database_name:     iwarehouse_dev
+    database_user:     root
+    database_password: ~
     database_path:     ~
 
     mailer_transport:  smtp
