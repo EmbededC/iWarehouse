@@ -95,5 +95,25 @@
                 <argument>WarehouseBundle</argument>
             </call>
         </service>
+
+        <service id="iwarehouse.admin.provider" class="CB\WarehouseBundle\Admin\ProviderAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Provider"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Provider</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.stock" class="CB\WarehouseBundle\Admin\StockAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Stock"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Stock</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
     </services>
 </container>
