@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new Sonata\AdminBundle\SonataAdminBundle(),
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            // Sonata Theme
+            new Raindrop\SonataThemeBundle\RaindropSonataThemeBundle('SonataAdminBundle'),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

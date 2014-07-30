@@ -21,7 +21,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "sonata-project/admin-bundle": "@stable",
         "sonata-project/doctrine-orm-admin-bundle": "@stable",
-        "simplethings/entity-audit-bundle": "@stable"
+        "simplethings/entity-audit-bundle": "@stable",
+        "raindrop/sonata-theme-bundle": "1.1.0.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

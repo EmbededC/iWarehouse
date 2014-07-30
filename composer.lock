@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "543bb3cfafedd8afb6fca1f5f8c233cf",
+    "hash": "8debe9f28d32db4ee1b697664748d4a7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1016,6 +1016,55 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "raindrop/sonata-theme-bundle",
+            "version": "1.1.0.x-dev",
+            "target-dir": "Raindrop/SonataThemeBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raindropdevs/RaindropSonataThemeBundle.git",
+                "reference": "a9bb2f45872bb715b76dc9fcacb36924a7d93f30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raindropdevs/RaindropSonataThemeBundle/zipball/a9bb2f45872bb715b76dc9fcacb36924a7d93f30",
+                "reference": "a9bb2f45872bb715b76dc9fcacb36924a7d93f30",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "sonata-project/admin-bundle": "2.2.*@dev"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Raindrop\\SonataThemeBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raindrop Dev Team",
+                    "homepage": "https://github.com/raindropdevs/RaindropSonataThemeBundle/graphs/contributors"
+                }
+            ],
+            "description": "Symfony 2 SonataAdminBundle Themes",
+            "homepage": "https://github.com/raindropdevs",
+            "keywords": [
+                "admin",
+                "sonata",
+                "theme"
+            ],
+            "time": "2013-11-01 10:58:34"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2167,7 +2216,8 @@
     "stability-flags": {
         "sonata-project/admin-bundle": 0,
         "sonata-project/doctrine-orm-admin-bundle": 0,
-        "simplethings/entity-audit-bundle": 0
+        "simplethings/entity-audit-bundle": 0,
+        "raindrop/sonata-theme-bundle": 20
     },
     "prefer-stable": false,
     "platform": {
