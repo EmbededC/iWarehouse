@@ -43,5 +43,36 @@
                 <argument>WarehouseBundle</argument>
             </call>
         </service>
+
+        <service id="iwarehouse.admin.container" class="CB\WarehouseBundle\Admin\ContainerAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Containers" label="Container"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Container</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+
+        <service id="iwarehouse.admin.containertypr" class="CB\WarehouseBundle\Admin\ContainerTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Containers" label="Container Type"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ContainerType</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.account" class="CB\WarehouseBundle\Admin\AccountAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Account"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Account</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
     </services>
 </container>
