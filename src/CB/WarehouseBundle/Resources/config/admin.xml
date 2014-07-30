@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="iwarehouse.admin.product" class="CB\WarehouseBundle\Admin\ProductAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Product</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productalias" class="CB\WarehouseBundle\Admin\ProductAliasAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Alias"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductAlias</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productbaseunit" class="CB\WarehouseBundle\Admin\ProductBaseUnitAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Base Unit"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductBaseUnit</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.productpresentation" class="CB\WarehouseBundle\Admin\ProductPresentationAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Products" label="Product Presentation"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ProductPresentations</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.container" class="CB\WarehouseBundle\Admin\ContainerAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Containers" label="Container"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Container</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+
+        <service id="iwarehouse.admin.containertype" class="CB\WarehouseBundle\Admin\ContainerTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Containers" label="Container Type"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\ContainerType</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.location" class="CB\WarehouseBundle\Admin\LocationAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Locations" label="Location"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Location</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+
+        <service id="iwarehouse.admin.locationtype" class="CB\WarehouseBundle\Admin\LocationTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Locations" label="Location Type"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\LocationType</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.account" class="CB\WarehouseBundle\Admin\AccountAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Account"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Account</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.provider" class="CB\WarehouseBundle\Admin\ProviderAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Provider"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Provider</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.stock" class="CB\WarehouseBundle\Admin\StockAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Others" label="Stock"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Stock</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+    </services>
+</container>

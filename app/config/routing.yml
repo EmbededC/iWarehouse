@@ -1,3 +1,12 @@
 # CBWarehouseBundle routes
 _cb_warehouse:
     resource: "@CBWarehouseBundle/Controller"
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
