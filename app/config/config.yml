@@ -69,6 +69,8 @@ swiftmailer:
     spool:     { type: memory }
 
 #Sonata Config
+sonata_admin:
+    title: iWarehouse
 sonata_block:
     default_contexts: [cms]
     blocks:
