@@ -55,10 +55,31 @@
         </service>
 
 
-        <service id="iwarehouse.admin.containertypr" class="CB\WarehouseBundle\Admin\ContainerTypeAdmin">
+        <service id="iwarehouse.admin.containertype" class="CB\WarehouseBundle\Admin\ContainerTypeAdmin">
             <tag name="sonata.admin" manager_type="orm" group="Containers" label="Container Type"/>
             <argument />
             <argument>CB\WarehouseBundle\Entity\ContainerType</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+        <service id="iwarehouse.admin.location" class="CB\WarehouseBundle\Admin\LocationAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Locations" label="Location"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\Location</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>WarehouseBundle</argument>
+            </call>
+        </service>
+
+
+        <service id="iwarehouse.admin.locationtype" class="CB\WarehouseBundle\Admin\LocationTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Locations" label="Location Type"/>
+            <argument />
+            <argument>CB\WarehouseBundle\Entity\LocationType</argument>
             <argument />
             <call method="setTranslationDomain">
                 <argument>WarehouseBundle</argument>
