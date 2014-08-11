@@ -319,12 +319,10 @@ class LocationType
     }
     
     /**
-     * ToString
-     *
-     * @return string
+     * @return string 
      */
-    public function __ToString()
+    public function __toString()
     {
-        return $this->name;
+        return $this->name ." (". $this->description . ")";
     }
 }

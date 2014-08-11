@@ -22,9 +22,15 @@ class ProductPresentationsType extends AbstractType
             ->add('sizeX')
             ->add('sizeY')
             ->add('sizeZ')
-            ->add('canDivide')
-            ->add('isPreferred')
-            ->add('isBase')
+            ->add('canDivide', null, array(
+                'required' => false,
+            ))
+            ->add('isPreferred', null, array(
+                'required' => false,
+            ))
+            ->add('isBase', null, array(
+                'required' => false,
+            ))
             ->add('createdDate')
             ->add('updatedDate')
             ->add('product')

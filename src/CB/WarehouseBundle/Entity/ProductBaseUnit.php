@@ -137,4 +137,12 @@ class ProductBaseUnit
     {
         return $this->products;
     }
+    
+    /**
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->name ." (". $this->description . ")";
+    }
 }

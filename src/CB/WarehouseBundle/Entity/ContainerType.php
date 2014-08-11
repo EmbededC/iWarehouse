@@ -317,4 +317,12 @@ class ContainerType
     {
         return $this->containers;
     }
+    
+    /**
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->name ." (". $this->description . ")";
+    }
 }
