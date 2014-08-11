@@ -81,3 +81,9 @@ sonata_block:
 
 raindrop_sonata_theme:
     theme: cosmo
+
+#FOSUser Bundle
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: CB\WarehouseBundle\Entity\User
