@@ -27,6 +27,9 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             // Sonata Theme
             new Raindrop\SonataThemeBundle\RaindropSonataThemeBundle('SonataAdminBundle'),
+            
+            //FOS User Bundle
+            new FOS\UserBundle\FOSUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
