@@ -49,6 +49,12 @@ class ProductAliasController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            //Verifiy that the ObjectType and ObjectId are valids
+            if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
+            {
+                throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
+            }
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -191,6 +197,12 @@ class ProductAliasController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            //Verifiy that the ObjectType and ObjectId are valids
+            if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
+            {
+                throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
+            }
+            
             $em->flush();
 
             return $this->redirect($this->generateUrl('productalias_edit', array('id' => $id)));
@@ -243,5 +255,37 @@ class ProductAliasController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+     * Method that verifies if the object Id and objectType are valid and exists
+     * Object type is valid if:
+     * - 0: Product
+     * - 1: Presentation
+     * 
+     * @param type $objectType
+     * @param type $objectId
+     */
+    private function isValidObjectId($objectType, $objectId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        switch($objectType)
+        {
+            case 0:
+                $container = $em->getRepository('CBWarehouseBundle:Product')->findOne($objectId);
+                if ($container instanceof \CB\WarehouseBundle\Entity\Container) {
+                    return true;
+                }
+                break;
+            case 1:
+                $location = $em->getRepository('CBWarehouseBundle:ProductPresentations')->findOne($objectId);
+                if ($location instanceof \CB\WarehouseBundle\Entity\Location) {
+                    return true;
+                }
+                break;
+        }
+
+        return false;
     }
 }

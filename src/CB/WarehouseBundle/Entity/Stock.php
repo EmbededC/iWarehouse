@@ -523,5 +523,5 @@ class Stock
     public function getPresentation()
     {
         return $this->presentation;
-    }
+    }    
 }
