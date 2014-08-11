@@ -27,7 +27,7 @@ class ProductAlias
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=50)
+     * @ORM\Column(name="code", type="string", length=50, unique = true)
      */
     private $code;
     

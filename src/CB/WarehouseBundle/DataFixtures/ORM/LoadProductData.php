@@ -30,30 +30,35 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
                 
         $this->addReference('product_cocacola', $cocacola);
         
-        /*
         $sprite = new Product();
-        $sprite->setName('sprite');
-        $sprite->setShortDesc('sprite');
-        $sprite->setDescription('sprite');
+        $sprite->setName('sprite 2L');
+        $sprite->setShortDesc('sprite 2L b.');
+        $sprite->setDescription('sprite 2L bottle');
         $sprite->setBaseUnit($this->getReference('productbaseunit_unit'));
         $sprite->setCreatedDate(new \DateTime());
+        $sprite->setLotRequiredInReception(true);
+        $sprite->setLotRequiredInExpedition(true);
+        $sprite->setSnRequiredInReception(true);
+        $sprite->setSnRequiredInExpedition(true);
         $manager->persist($sprite);
         $manager->flush();
                 
         $this->addReference('product_sprite', $sprite);
         
         $fanta = new Product();
-        $fanta->setName('fanta');
-        $fanta->setShortDesc('fanta');
-        $fanta->setDescription('fanta');
+        $fanta->setName('fanta 2L');
+        $fanta->setShortDesc('fanta 2L b.');
+        $fanta->setDescription('fanta 2L bottle');
         $fanta->setBaseUnit($this->getReference('productbaseunit_unit'));
         $fanta->setCreatedDate(new \DateTime());
+        $fanta->setLotRequiredInReception(true);
+        $fanta->setLotRequiredInExpedition(true);
+        $fanta->setSnRequiredInReception(true);
+        $fanta->setSnRequiredInExpedition(true);
         $manager->persist($fanta);
         $manager->flush();
                 
         $this->addReference('product_fanta', $fanta);
-         * 
-         */
     }
     
     /**

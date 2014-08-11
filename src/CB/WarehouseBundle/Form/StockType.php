@@ -25,8 +25,8 @@ class StockType extends AbstractType
             ->add('productionDate')
             ->add('createdDate')
             ->add('updatedDate')
-            ->add('objectId')
-            ->add('objectType')
+            ->add('objectId', null, array('help' => 'Container Id or Location Id'))
+            ->add('objectType', null, array('help' => 'Object Id type: 0 - Container, 1 - Location'))
             ->add('product')
             ->add('presentation')
         ;

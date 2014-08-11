@@ -25,6 +25,7 @@ class LocationAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('code')
             ->add('locationType')
         ;
@@ -34,6 +35,7 @@ class LocationAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->addIdentifier('code')
             ->add('locationType')
         ;

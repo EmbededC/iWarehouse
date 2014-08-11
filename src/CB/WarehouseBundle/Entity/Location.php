@@ -24,7 +24,7 @@ class Location
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=50)
+     * @ORM\Column(name="code", type="string", length=50, unique = true)
      */
     private $code;
     
@@ -38,7 +38,7 @@ class Location
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedDate", type="datetime")
+     * @ORM\Column(name="updatedDate", type="datetime", nullable=true)
      */
     private $updatedDate;
     
@@ -134,29 +134,6 @@ class Location
     public function getContainers()
     {
         return $this->containers;
-    }
-
-    /**
-     * Set createdDate
-     *
-     * @param \DateTime $createdDate
-     * @return Location
-     */
-    public function setCreationDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->createdDate;
     }
 
     /**

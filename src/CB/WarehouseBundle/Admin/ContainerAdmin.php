@@ -26,6 +26,7 @@ class ContainerAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('code')
             ->add('location')
         ;
@@ -35,6 +36,7 @@ class ContainerAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->addIdentifier('code')
             ->add('location')
             ->add('containerType')

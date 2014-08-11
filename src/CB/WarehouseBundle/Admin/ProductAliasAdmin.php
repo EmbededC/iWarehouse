@@ -17,8 +17,8 @@ class ProductAliasAdmin extends Admin
             ->add('code')
             ->add('createdDate')
             ->add('updatedDate')
-            ->add('objectId')
-            ->add('objectType')
+            ->add('objectId', null, array('help' => 'Product Id or Presentation Id'))
+            ->add('objectType', null, array('help' => 'Object Id type: 0 - Product, 1 - Presentation'))
         ;
     }
 
