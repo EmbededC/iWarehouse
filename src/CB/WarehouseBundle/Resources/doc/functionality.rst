@@ -22,6 +22,35 @@ INITIAL WAREHOUSE CONFIGURATION (As an administrator)
 7-a)parameter that allows or not to putaway stock/containers ins diferent 
     locations taht the one proposed by the application.
 
+ADD STOCK (As an operator)
+--------------------
+Select the location where the stock will be located or select the container where the stock will be located
+Select the product
+Set the stock vars (logistics, etc.)
+Optionally add or select a reason
+Confirm
+If there is another stock in the location/container with the same values, merge the stocks.
+
+DEL STOCK (As an operator)
+--------------------
+Select the location or the container where the stock is located
+Select one stock
+Optionally see the stock vars (logistics, etc.) to confirm that is the required stock
+Select the quantity to delete
+Optionally add or select a reason
+Confirm
+Archive the stock deleted
+
+MODIFY (move, change vars, etc) STOCK (As an operator)
+--------------------
+Select the location or the container where the stock is located
+Select one stock
+Optionally see the stock vars (logistics, etc.) to confirm that is the required stock
+Set the new values (to change the quantity use add o del stock)
+Optionally add or select a reason
+Confirm
+Archive the stock with the old values and new values
+
 RECEIVING PROCESS (As an operator)
 --------------------
 1) Create a reception
