@@ -102,7 +102,7 @@ class ProductPresentations
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedDate", type="datetime")
+     * @ORM\Column(name="updatedDate", type="datetime", nullable=true)
      */
     private $updatedDate;
         

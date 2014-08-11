@@ -87,7 +87,7 @@ class Product
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedDate", type="datetime")
+     * @ORM\Column(name="updatedDate", type="datetime", nullable=true)
      */
     private $updatedDate;
 
@@ -328,30 +328,6 @@ class Product
     {
         return $this->stocks;
     }
-
-    /**
-     * Set createdDate
-     *
-     * @param \DateTime $createdDate
-     * @return Product
-     */
-    public function setCreationDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->createdDate;
-    }
-
 
     /**
      * Set createdDate
