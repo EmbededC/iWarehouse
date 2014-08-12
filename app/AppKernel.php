@@ -33,6 +33,11 @@ class AppKernel extends Kernel
             
             //Doctrine Fixtures Bundle
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            
+            //Sonata User Bundle extending FOSUserBundle
+            //new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+            //new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+            //new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
