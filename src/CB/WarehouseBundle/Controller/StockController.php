@@ -49,11 +49,14 @@ class StockController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            /*
             //Verifiy that the ObjectType and ObjectId are valids
             if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
             {
                 throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
             }
+             * 
+             */
                         
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -198,11 +201,14 @@ class StockController extends Controller
 
         if ($editForm->isValid()) {
             
+            /*
             //Verifiy that the ObjectType and ObjectId are valids
             if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
             {
                 throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
             }
+             * 
+             */
             
             $em->flush();
 
@@ -266,7 +272,7 @@ class StockController extends Controller
      * 
      * @param type $objectType
      * @param type $objectId
-     */
+     *
     private function isValidObjectId($objectType, $objectId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -289,4 +295,6 @@ class StockController extends Controller
 
         return false;
     }
+     * 
+     */    
 }

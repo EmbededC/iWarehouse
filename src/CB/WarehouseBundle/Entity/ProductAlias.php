@@ -3,12 +3,15 @@
 namespace CB\WarehouseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use CB\WarehouseBundle\Validator\Constraints as CBAssert;
 
 /**
  * ProductAlias
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @CBAssert\ValidProductAliasObjectReference
  */
 class ProductAlias
 {

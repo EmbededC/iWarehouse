@@ -49,11 +49,14 @@ class ProductAliasController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            /*
             //Verifiy that the ObjectType and ObjectId are valids
             if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
             {
                 throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
             }
+             * 
+             */
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -197,11 +200,14 @@ class ProductAliasController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            /*
             //Verifiy that the ObjectType and ObjectId are valids
             if (!$this->isValidObjectId($entity->getObjectType(), $entity->getObjectId()))
             {
                 throw $this->createNotFoundException('Object Type or Object Id are not valid. Check Stock Entity definition');
             }
+             * 
+             */
             
             $em->flush();
 
@@ -265,7 +271,7 @@ class ProductAliasController extends Controller
      * 
      * @param type $objectType
      * @param type $objectId
-     */
+     *
     private function isValidObjectId($objectType, $objectId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -288,4 +294,6 @@ class ProductAliasController extends Controller
 
         return false;
     }
+     * 
+     */
 }

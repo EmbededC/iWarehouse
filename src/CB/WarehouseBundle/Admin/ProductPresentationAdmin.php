@@ -40,6 +40,7 @@ class ProductPresentationAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('id')
             ->add('name')
             ->add('description')
             ->add('baseUnitQuantity')
@@ -54,6 +55,7 @@ class ProductPresentationAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->addIdentifier('name')
             ->add('description')
             ->add('baseUnitQuantity')

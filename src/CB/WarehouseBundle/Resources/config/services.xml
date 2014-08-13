@@ -17,4 +17,17 @@
         </service>
     </services>
     -->
+    
+    <services>
+        <service id="validator.unique.valid_stock_object_reference" class="CB\WarehouseBundle\Validator\Constraints\ValidStockObjectReferenceValidator">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="validator.constraint_validator" alias="stock_object" />
+        </service>
+
+        <service id="validator.unique.valid_product_alias_object_reference" class="CB\WarehouseBundle\Validator\Constraints\ValidProductAliasObjectReferenceValidator">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="validator.constraint_validator" alias="product_alias_object" />
+        </service>
+    </services>
+
 </container>
