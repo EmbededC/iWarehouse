@@ -32,7 +32,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                 array('%string%' => 'Can\'t find the product'),
                 null
             );
-            return;
+            return 1;
         }
         
         //SerialNumber Validation
@@ -48,7 +48,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                         array('%string%' => 'The stock SN and the product SnMask doesn\'t match'),
                         null
                     );
-                    return;
+                    return 2;
                 }
             }
         }
@@ -66,12 +66,23 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                         array('%string%' => 'The stock Lot and the product LotMask doesn\'t match'),
                         null
                     );
-                    return;
+                    return 3;
                 }
             }
         }
         
         //Validation of ObjectId and ObjectType
+        if (is_null($stock->getObjectType()))
+        {
+            $this->context->addViolationAt(
+                'Stock',
+                $constraint->message,
+                array('%string%' => 'The stock ObjectType must have a value'),
+                null
+            );
+            return 7;
+        }
+        
         switch($stock->getObjectType())
         {
             case 0: //Container
@@ -84,6 +95,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                         array('%string%' => 'Check the Object Id field, a container with this id doesn\'t exists'),
                         null
                     );
+                    return 4;
                 }
                 break;
             case 1: //Location
@@ -96,6 +108,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                         array('%string%' => 'Check the Object Id field, a location with this id doesn\'t exists'),
                         null
                     );
+                    return 5;
                 }
                 break;
             default:
@@ -105,7 +118,10 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                     array('%string%' => 'The Object Type field is not valid. Use 0 for container and 1 for location'),
                     null
                 );
+                return 6;
                 break;
         }
+        
+        return 0;
     }
 }

@@ -23,8 +23,10 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         $cocacola->setCreatedDate(new \DateTime());
         $cocacola->setLotRequiredInReception(true);
         $cocacola->setLotRequiredInExpedition(true);
+        $cocacola->setLotMask(null);
         $cocacola->setSnRequiredInReception(true);
         $cocacola->setSnRequiredInExpedition(true);
+        $cocacola->setSnMask(null);
         $manager->persist($cocacola);
         $manager->flush();
                 
@@ -38,8 +40,10 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         $sprite->setCreatedDate(new \DateTime());
         $sprite->setLotRequiredInReception(true);
         $sprite->setLotRequiredInExpedition(true);
+        $sprite->setLotMask(null);
         $sprite->setSnRequiredInReception(true);
         $sprite->setSnRequiredInExpedition(true);
+        $sprite->setSnMask(null);
         $manager->persist($sprite);
         $manager->flush();
                 
@@ -53,8 +57,10 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         $fanta->setCreatedDate(new \DateTime());
         $fanta->setLotRequiredInReception(true);
         $fanta->setLotRequiredInExpedition(true);
+        $fanta->setLotMask(null);
         $fanta->setSnRequiredInReception(true);
         $fanta->setSnRequiredInExpedition(true);
+        $fanta->setSnMask(null);
         $manager->persist($fanta);
         $manager->flush();
                 
