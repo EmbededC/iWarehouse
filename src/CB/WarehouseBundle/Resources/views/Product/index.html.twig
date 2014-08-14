@@ -29,8 +29,10 @@
                 <td>{{ entity.shortDesc }}</td>
                 <td>{{ entity.lotRequiredInReception }}</td>
                 <td>{{ entity.lotRequiredInExpedition }}</td>
+                <td>{{ entity.lotMask }}</td>
                 <td>{{ entity.snRequiredInReception }}</td>
                 <td>{{ entity.snRequiredInExpedition }}</td>
+                <td>{{ entity.snMask }}</td>
                 <td>{{ entity.active }}</td>
                 <td>{% if entity.createdDate %}{{ entity.createdDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.updatedDate %}{{ entity.updatedDate|date('Y-m-d H:i:s') }}{% endif %}</td>

@@ -35,6 +35,8 @@ class ProductType extends AbstractType
             ))
             ->add('createdDate')
             ->add('updatedDate')
+            ->add('lotMask')
+            ->add('snMask')
             ->add('baseUnit')
         ;
     }

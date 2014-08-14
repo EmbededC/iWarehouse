@@ -24,7 +24,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50)
+     * @ORM\Column(name="name", type="string", length=50, unique = true)
      */
     private $name;
 
@@ -75,7 +75,7 @@ class Product
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active;
+    private $active = true;
     
     /**
      * @var \DateTime
@@ -87,7 +87,7 @@ class Product
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedDate", type="datetime")
+     * @ORM\Column(name="updatedDate", type="datetime", nullable=true)
      */
     private $updatedDate;
 
@@ -106,6 +106,24 @@ class Product
      * @ORM\JoinColumn(name="baseUnit_id", referencedColumnName="id")
      */
     protected $baseUnit;
+    
+    /**
+     * @var string
+     * 
+     * Attribute with a regular expression to validate the stock lot
+     *
+     * @ORM\Column(name="lotMask", type="string", length=255, nullable=true)
+     */
+    private $lotMask;
+    
+    /**
+     * @var string
+     * 
+     * Attribute with a regular expression to validate the stock serial number
+     *
+     * @ORM\Column(name="snMask", type="string", length=255, nullable=true)
+     */
+    private $snMask;
 
 
     /**
@@ -335,30 +353,6 @@ class Product
      * @param \DateTime $createdDate
      * @return Product
      */
-    public function setCreationDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->createdDate;
-    }
-
-
-    /**
-     * Set createdDate
-     *
-     * @param \DateTime $createdDate
-     * @return Product
-     */
     public function setCreatedDate($createdDate)
     {
         $this->createdDate = $createdDate;
@@ -453,5 +447,28 @@ class Product
     public function getBaseUnit()
     {
         return $this->baseUnit;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Product
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

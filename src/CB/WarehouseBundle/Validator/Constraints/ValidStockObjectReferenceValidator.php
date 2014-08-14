@@ -23,8 +23,55 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
     
     public function validate($stock, Constraint $constraint)
     {
-        //*$em = $this->getDoctrine()->getManager();
-
+        //Validation of product required fields
+        $product = $this->entityManager->getRepository('CBWarehouseBundle:Product')->find($stock->getProduct()->getId());
+        if (!$product instanceof \CB\WarehouseBundle\Entity\Product) {
+            $this->context->addViolationAt(
+                'Stock',
+                $constraint->message,
+                array('%string%' => 'Can\'t find the product'),
+                null
+            );
+            return;
+        }
+        
+        //SerialNumber Validation
+        if ($product->getSnMask())
+        {
+            if ($product->getSnRequiredInReception() &&  $product->getSnRequiredInExpedition())
+            {
+                if (!preg_match($product->getSnMask(), $stock->getSn()))
+                {
+                    $this->context->addViolationAt(
+                        'Stock',
+                        $constraint->message,
+                        array('%string%' => 'The stock SN and the product SnMask doesn\'t match'),
+                        null
+                    );
+                    return;
+                }
+            }
+        }
+        
+        //Lote Validation
+        if ($product->getLotMask())
+        {
+            if ($product->getLotRequiredInReception() &&  $product->getLotRequiredInExpedition())
+            {
+                if (!preg_match($product->getLotMask(), $stock->getLot()))
+                {
+                    $this->context->addViolationAt(
+                        'Stock',
+                        $constraint->message,
+                        array('%string%' => 'The stock Lot and the product LotMask doesn\'t match'),
+                        null
+                    );
+                    return;
+                }
+            }
+        }
+        
+        //Validation of ObjectId and ObjectType
         switch($stock->getObjectType())
         {
             case 0: //Container

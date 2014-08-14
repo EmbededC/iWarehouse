@@ -106,6 +106,24 @@ class Product
      * @ORM\JoinColumn(name="baseUnit_id", referencedColumnName="id")
      */
     protected $baseUnit;
+    
+    /**
+     * @var string
+     * 
+     * Attribute with a regular expression to validate the stock lot
+     *
+     * @ORM\Column(name="lotMask", type="string", length=255, nullable=true)
+     */
+    private $lotMask;
+    
+    /**
+     * @var string
+     * 
+     * Attribute with a regular expression to validate the stock serial number
+     *
+     * @ORM\Column(name="snMask", type="string", length=255, nullable=true)
+     */
+    private $snMask;
 
 
     /**
@@ -452,5 +470,51 @@ class Product
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set lotMask
+     *
+     * @param string $lotMask
+     * @return Product
+     */
+    public function setLotMask($lotMask)
+    {
+        $this->lotMask = $lotMask;
+
+        return $this;
+    }
+
+    /**
+     * Get lotMask
+     *
+     * @return string 
+     */
+    public function getLotMask()
+    {
+        return $this->lotMask;
+    }
+
+    /**
+     * Set snMask
+     *
+     * @param string $snMask
+     * @return Product
+     */
+    public function setSnMask($snMask)
+    {
+        $this->snMask = $snMask;
+
+        return $this;
+    }
+
+    /**
+     * Get snMask
+     *
+     * @return string 
+     */
+    public function getSnMask()
+    {
+        return $this->snMask;
     }
 }

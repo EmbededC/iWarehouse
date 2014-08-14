@@ -23,10 +23,16 @@ class ProductAdmin extends Admin
             ->add('lotRequiredInExpedition', null, array(
                 'required' => false,
             ))
+            ->add('lotMask', null, array(
+                'required' => false,
+            ))
             ->add('snRequiredInReception', null, array(
                 'required' => false,
             ))
             ->add('snRequiredInExpedition', null, array(
+                'required' => false,
+            ))
+            ->add('snMask', null, array(
                 'required' => false,
             ))
             ->add('active', null, array(
