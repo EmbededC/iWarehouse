@@ -35,6 +35,7 @@ class ValidProductAliasObjectReferenceValidator extends ConstraintValidator
                         array('%string%' => 'Check the Object Id field, a product with this id doesn\'t exists'),
                         null
                     );
+                    return 1;
                 }
                 break;
             case 1: //Presentation
@@ -47,6 +48,7 @@ class ValidProductAliasObjectReferenceValidator extends ConstraintValidator
                         array(),
                         null
                     );
+                    return 2;
                 }
                 break;
             default:
@@ -56,8 +58,11 @@ class ValidProductAliasObjectReferenceValidator extends ConstraintValidator
                     array('%string%' => 'The Object Type field is not valid. Use 0 for product and 1 for presentation'),
                     null
                 );
+                return 3;
                 break;
         }
+        
+        return 0; //OK
     }
     
     public function getTargets()
