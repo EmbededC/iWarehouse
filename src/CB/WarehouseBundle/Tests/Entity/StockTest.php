@@ -36,7 +36,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorSNAndLotValid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct();
+        $product = $this->CreateTestProduct(10);
+        $presentation = $this->CreateTestProductPresentation(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -74,6 +75,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2);
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setPresentation($presentation);
         
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
@@ -96,7 +98,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorProductInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct(2);
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -144,7 +146,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorSNInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct();
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -200,7 +202,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorLotInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct();
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -256,7 +258,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorContainerObjectIdInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct(2);
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -313,7 +315,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorLocationObjectIdInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct(2);
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -370,7 +372,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
     public function testValidStockObjectReferenceValidatorObjectTypeInvalid()
     {
         // First, mock the objects to be used in the test
-        $product = $this->CreateTestProduct(2);
+        $product = $this->CreateTestProduct(10);
         $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
 
         // Now, mock the repository so it returns the mock of the employee
@@ -419,23 +421,91 @@ class StockTest extends \PHPUnit_Framework_TestCase
         //Verify that a product with a lote and sn with letters and numbers of length 1 or more are valid
         $result = $this->validator->validate($stock, $constraint);
         $this->assertEquals(6, $result, 'Error validating stock');
-        
-        //$violations = $context->getViolations();
-        //$this->assertEquals(0, count($violations));
     }
     
-    private function CreateTestProduct()
+    public function testValidStockObjectReferenceValidatorPresentationInvalid()
+    {
+         // First, mock the objects to be used in the test
+        $product = $this->CreateTestProduct(10);
+        $presentation = $this->CreateTestProductPresentation(11);
+        $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
+
+        // Now, mock the repository so it returns the mock of the employee
+        $productRepository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $productRepository->expects($this->any())
+            ->method('find')
+            ->will($this->returnValue($product));
+        
+        $containerRepository = $this->getMockBuilder('\Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $containerRepository->expects($this->any())
+            ->method('find')
+            ->will($this->returnValue($container));
+
+        //Mock the Entitymanager
+        $em = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $em->expects($this->at(0))
+            ->method('getRepository')
+            ->with('CBWarehouseBundle:Product')
+            ->will($this->returnValue($productRepository));
+        $em->expects($this->at(1))
+            ->method('getRepository')
+            ->with('CBWarehouseBundle:Container')
+            ->will($this->returnValue($containerRepository));
+       
+        //Get one product and one presentation for the new stock
+        $stock = new Stock();
+        $stock->setProduct($product);
+        $stock->setLot('L001');
+        $stock->setSn('SN0001');
+        $stock->setObjectId(2);
+        $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setPresentation($presentation);
+        
+        
+        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
+        $context->expects($this->any())
+            ->method('addViolation')
+            ->with($this->equalTo('[message]'), $this->equalTo(array('%string%', '')));
+
+        $this->validator = new ValidStockObjectReferenceValidator($em);
+        $this->validator->initialize($context);
+        $constraint = new ValidStockObjectReference();
+        
+        //Verify that a product with a lote and sn with letters and numbers of length 1 or more are valid
+        $result = $this->validator->validate($stock, $constraint);
+        $this->assertEquals(8, $result, 'Error validating stock');
+    }
+    
+    private function CreateTestProduct($productId)
     {
         $product = $this->getMock('\CB\WarehouseBundle\Entity\Product');
-        $product->expects($this->any())->method('getId')->willReturn(10);
+        $product->expects($this->any())->method('getId')->willReturn($productId);
         $product->expects($this->any())->method('getSnMask')->willReturn('/^([0-9]|[a-zA-Z])+$/'); //A string with numbers and leters with one character or more
         $product->expects($this->any())->method('getSnRequiredInReception')->willReturn(true);
         $product->expects($this->any())->method('getSnRequiredInExpedition')->willReturn(true);
         $product->expects($this->any())->method('getLotMask')->willReturn('/^([0-9]|[a-zA-Z])+$/'); //A string with numbers and leters with one character or more
         $product->expects($this->any())->method('getLotRequiredInReception')->willReturn(true);
         $product->expects($this->any())->method('getLotRequiredInExpedition')->willReturn(true);
+        $product->expects($this->any())->method('getPresentation')->willReturn(true);
         
         return $product;
+    }
+    
+    private function CreateTestProductPresentation($presentationProductId)
+    {
+        $presentationsProduct = $this->getMock('\CB\WarehouseBundle\Entity\Product');
+        $presentationsProduct->expects($this->any())->method('getId')->willReturn($presentationProductId);
+        
+        $presentation = $this->getMock('\CB\WarehouseBundle\Entity\ProductPresentations');
+        $presentation->expects($this->any())->method('getProduct')->willReturn($presentationsProduct);
+
+        return $presentation;
     }
 
 }

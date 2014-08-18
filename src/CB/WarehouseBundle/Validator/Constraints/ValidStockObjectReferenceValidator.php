@@ -23,7 +23,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
     
     public function validate($stock, Constraint $constraint)
     {
-        //Validation of product required fields
+        //Validation that product exists
         $product = $this->entityManager->getRepository('CBWarehouseBundle:Product')->find($stock->getProduct()->getId());
         if (!$product instanceof \CB\WarehouseBundle\Entity\Product) {
             $this->context->addViolationAt(
@@ -71,7 +71,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
             }
         }
         
-        //Validation of ObjectId and ObjectType
+        //Validation that ObjectType exists
         if (is_null($stock->getObjectType()))
         {
             $this->context->addViolationAt(
@@ -83,6 +83,7 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
             return 7;
         }
         
+        //Validation that the ObjectType value is 0 or 1
         switch($stock->getObjectType())
         {
             case 0: //Container
@@ -120,6 +121,29 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                 );
                 return 6;
                 break;
+        }
+        
+        //Validation that the stock product and the presentation product are the same
+        //$presentation = $this->entityManager->getRepository('CBWarehouseBundle:ProductPresentations')->find($stock->getProduct()->getId());
+        //if (!$product instanceof \CB\WarehouseBundle\Entity\Product) {
+        //    $this->context->addViolationAt(
+        //        'Stock',
+        //        $constraint->message,
+        //        array('%string%' => 'Can\'t find the product'),
+        //        null
+        //    );
+        //    return 1;
+        //}
+        
+        if ($product->getId() != $stock->getPresentation()->getProduct()->getId())
+        {
+            $this->context->addViolationAt(
+                    'Stock',
+                    $constraint->message,
+                    array('%string%' => 'The stock product and the presentation product must be the same'),
+                    null
+                );
+                return 8;
         }
         
         return 0;
