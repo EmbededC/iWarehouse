@@ -25,10 +25,6 @@ class StockTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-//        $this->validator = Validation::createValidatorBuilder()
-//            ->enableAnnotationMapping()
-//            ->getValidator();
-        
         self::$kernel = new \AppKernel('dev', true);
         self::$kernel->boot();       
     }
@@ -482,6 +478,86 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(8, $result, 'Error validating stock');
     }
     
+    public function testEquals()
+    {
+        //Get a product
+        $productOne = $this->CreateTestProduct(10);
+        $productTwo = $this->CreateTestProduct(11);
+        //Get a pesentation
+        $presentation = $this->CreateTestProductPresentation(10);
+        //Get a baseQuantity
+        $baseQuantity = 
+        
+        //Get the first stock to compare
+        $stock = new Stock();
+        $stock->setProduct($productOne);
+        $stock->setLot('L001');
+        $stock->setSn('SN0001');
+        $stock->setObjectId(2);
+        $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setPresentation($presentation);
+        $stock->setBaseQuantity(300);
+        $stock->setQuantity(300);
+        $stock->setBestBeforeDate(new \DateTime('2014-08-20'));
+        $stock->setCreatedDate(new \DateTime('2014-08-20'));
+        $stock->setExpiryDate(new \DateTime('2014-08-20'));
+        $stock->setProductionDate(new \DateTime('2014-08-20'));
+        $stock->setRecivedDate(new \DateTime('2014-08-20'));
+        $stock->setUpdatedDate(new \DateTime('2014-08-20'));
+        
+        //Get the second stock to compare
+        $stockTwo = new Stock();
+        $stockTwo->setProduct($productOne);
+        $stockTwo->setLot('L001');
+        $stockTwo->setSn('SN0001');
+        $stockTwo->setObjectId(2);
+        $stockTwo->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stockTwo->setPresentation($presentation);
+        $stockTwo->setBaseQuantity(300);
+        $stockTwo->setQuantity(300);
+        $stockTwo->setBestBeforeDate(new \DateTime('2014-08-20'));
+        $stockTwo->setCreatedDate(new \DateTime('2014-08-20'));
+        $stockTwo->setExpiryDate(new \DateTime('2014-08-20'));
+        $stockTwo->setProductionDate(new \DateTime('2014-08-20'));
+        $stockTwo->setRecivedDate(new \DateTime('2014-08-20'));
+        $stockTwo->setUpdatedDate(new \DateTime('2014-08-20'));
+        
+        
+        //Verify that two stocks are equal if all the fields are equal
+        $this->assertTrue($stock->equals($stockTwo));
+        
+        //Verify that stocks with different created, updated, producted, received dates are equal
+        $stockTwo->setCreatedDate(new \DateTime('2014-08-21'));
+        $stockTwo->setProductionDate(new \DateTime('2014-08-21'));
+        $stockTwo->setRecivedDate(new \DateTime('2014-08-21'));
+        $stockTwo->setUpdatedDate(new \DateTime('2014-08-21'));
+        $this->assertTrue($stock->equals($stockTwo));
+        
+        //Verify that stocks with different quantity are equal
+        $stockTwo->setBaseQuantity(100);
+        $stockTwo->setQuantity(100);
+        $this->assertTrue($stock->equals($stockTwo));
+        
+        //Verify that stocks with different objectId aren't equal
+        $stockTwo->setObjectId(3);
+        $this->assertFalse($stock->equals($stockTwo));
+        
+        //Verify that stocks with different product aren't equal
+        $stock->setProduct($productTwo);
+        $this->assertFalse($stock->equals($stockTwo));
+                
+        //Verify that stocks with different bestbefore date aren't equal
+        $stock->setProduct($productOne);
+        $stockTwo->setBestBeforeDate(new \DateTime('2014-08-21'));
+        $this->assertFalse($stock->equals($stockTwo));
+        
+        //Verify that stocks with different bestbefore date aren't equal
+        $stockTwo->setBestBeforeDate(new \DateTime('2014-08-20'));
+        $stockTwo->setExpiryDate(new \DateTime('2014-08-21'));
+        $this->assertFalse($stock->equals($stockTwo));
+        
+    }
+    
     private function CreateTestProduct($productId)
     {
         $product = $this->getMock('\CB\WarehouseBundle\Entity\Product');
@@ -507,5 +583,4 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
         return $presentation;
     }
-
 }

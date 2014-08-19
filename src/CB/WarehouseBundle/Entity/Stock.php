@@ -11,7 +11,9 @@ use CB\WarehouseBundle\Validator\Constraints as CBAssert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CB\WarehouseBundle\Entity\StockRepository")
  * @CBAssert\ValidStockObjectReference
+ * 
  */
 class Stock
 {
@@ -258,52 +260,6 @@ class Stock
      * @param \DateTime $createdDate
      * @return Stock
      */
-    public function setCreationDate($createdDate)
-    {
-        $this->createdDate = $createdDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->createdDate;
-    }
-
-    /**
-     * Set parentStockId
-     *
-     * @param integer $parentStockId
-     * @return Stock
-     */
-    //public function setParentStockId($parentStockId)
-    //{
-    //    $this->parentStockId = $parentStockId;
-    //
-    //    return $this;
-    //}
-
-    /**
-     * Get parentStockId
-     *
-     * @return integer 
-     */
-    //public function getParentStockId()
-    //{
-    //    return $this->parentStockId;
-    //}
-
-    /**
-     * Set createdDate
-     *
-     * @param \DateTime $createdDate
-     * @return Stock
-     */
     public function setCreatedDate($createdDate)
     {
         $this->createdDate = $createdDate;
@@ -526,5 +482,29 @@ class Stock
     public function getPresentation()
     {
         return $this->presentation;
-    }    
+    }   
+    
+    /**
+     * Compare $this attributes and $otherEntity attributes (except quantity), and return true if they are identical
+     * 
+     * @param type $otherEntity
+     */
+    public function equals(Stock $otherEntity)
+    {
+        if ($this->getBestBeforeDate() == $otherEntity->getBestBeforeDate() &&
+            $this->getExpiryDate() == $otherEntity->getExpiryDate() &&
+            $this->getLot() == $otherEntity->getLot() &&
+            $this->getObjectId() == $otherEntity->getObjectId() &&
+            $this->getObjectType() == $otherEntity->getObjectType() &&
+            $this->getPresentation() == $otherEntity->getPresentation() &&
+            $this->getProduct() == $otherEntity->getProduct() &&
+            $this->getSn() == $otherEntity->getSn())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

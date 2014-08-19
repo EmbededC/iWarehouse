@@ -1,10 +1,20 @@
 <h1>Warehouse basic operations</h1>
 <ul>
-    <li><b>Add stock</b> into a location or a container. <i>Note that if there is another stock into the container/location with the same attributes, the new stock will merge with the existing adding its quantities.</i></li>
-    <li><b>Inc/Dec stock</b> to increment or decrement the stock quantity. <i>Note that this option is the best to increment or reduce stock but with add and delete options it can be possible too.</i></li>
-    <li><b>Modify stock attributes.</b> <i>Note that the location or quantity can't change with this option, instead use move stock or inc/dec or add or delete stock.</i></li>
-    <li><b>Move stock</b> from one location/container to another.</li>
-    <li><b>Delete stock</b> <i>Note that can delete all the stock or a part. With this can reduce the quantity like the inc/dec stock option.</i></li>
+    <li>
+        <a href="{{ path('stock_new') }}"><b>Add stock</b></a> into a location or a container. <i>Note that if there is another stock into the container/location with the same attributes, the new stock will merge with the existing adding its quantities.</i>
+    </li>
+    <li>
+        <a href="{{ path('stock_edit_qtty') }}"><b>Inc/Dec stock</b></a> to increment or decrement the stock quantity. <i>Note that this option is the best to increment or reduce stock but with add and delete options it can be possible too.</i>
+    </li>
+    <li>
+        <a href="{{ path('stock_edit') }}"><b>Modify stock attributes.</b></a> <i>Note that the location or quantity can't change with this option, instead use move stock or inc/dec or add or delete stock.</i>
+    </li>
+    <li>
+        <a href="{{ path('stock_move') }}"><b>Move stock</b></a> from one location/container to another.
+    </li>
+    <li>
+        <a href="{{ path('stock_delete') }}"><b>Delete stock</b></a> <i>Note that can delete all the stock or a part. With this can reduce the quantity like the inc/dec stock option.</i>
+    </li>
 </ul>
 
 <h1>Warehouse map</h1>
