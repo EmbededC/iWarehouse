@@ -545,14 +545,14 @@ class StockTest extends \PHPUnit_Framework_TestCase
         //Verify that stocks with different product aren't equal
         $stock->setProduct($productTwo);
         $this->assertFalse($stock->equals($stockTwo));
+        $stock->setProduct($productOne);
                 
         //Verify that stocks with different bestbefore date aren't equal
-        $stock->setProduct($productOne);
         $stockTwo->setBestBeforeDate(new \DateTime('2014-08-21'));
         $this->assertFalse($stock->equals($stockTwo));
+        $stockTwo->setBestBeforeDate(new \DateTime('2014-08-20'));
         
         //Verify that stocks with different bestbefore date aren't equal
-        $stockTwo->setBestBeforeDate(new \DateTime('2014-08-20'));
         $stockTwo->setExpiryDate(new \DateTime('2014-08-21'));
         $this->assertFalse($stock->equals($stockTwo));
         
