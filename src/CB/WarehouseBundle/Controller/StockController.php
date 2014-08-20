@@ -52,10 +52,21 @@ class StockController extends Controller
             
             //Check if there is another stock into the same container or location with the same attributes
             //if exists modify the found stock adding the new quantity
-            //TODO
+            $stockToMerge = $em->getRepository('CBWarehouseBundle:Stock')->findEqual($entity);
             
-            $em->persist($entity);
-            $em->flush();
+            if ($stockToMerge)
+            {
+                //Add stock to existing stock
+                $stockToMerge->setQuantity($stockToMerge->getQuantity() + $entity->getQuantity());
+                $em->persist($stockToMerge);
+                $em->flush();
+            }
+            else
+            {            
+                //Create a new stock
+                $em->persist($entity);
+                $em->flush();
+            }
 
             return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
         }
@@ -248,5 +259,59 @@ class StockController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+     * Displays a form to edit an existing Stock entity.
+     *
+     * @Route("/{id}/qtty", name="stock_edit_qtty")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editQuantityAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
+    /**
+     * Displays a form to edit an existing Stock entity.
+     *
+     * @Route("/{id}/move", name="stock_move")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editLocationAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 }

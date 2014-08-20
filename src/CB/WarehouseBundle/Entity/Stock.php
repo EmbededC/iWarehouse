@@ -143,6 +143,17 @@ class Stock
      * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id")
      */
     protected $presentation;
+    
+    /**
+     * Stock Location: Not stored into database => must be set by the controller
+     * @var type 
+     */
+    protected $location;
+    /**
+     * Stock Container: Not stored into database => must be set by the controller
+     * @var type 
+     */
+    protected $container;
 
     /**
      * Get id
@@ -505,6 +516,54 @@ class Stock
         else
         {
             return false;
+        }
+    }
+    
+    /**
+     * Get container
+     *
+     * @return \CB\WarehouseBundle\Entity\Container
+     */
+    public function getContainer()
+    {
+        if ($this->getObjectType() == Stock::OBJECT_TYPE_CONTAINER)
+        {
+            if ($this->container)
+            {
+                return $this->container;
+            }
+            else
+            {
+                return $this->getObjectId();
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * Get location
+     *
+     * @return \CB\WarehouseBundle\Entity\Location
+     */
+    public function getLocation()
+    {
+        if ($this->getObjectType() == Stock::OBJECT_TYPE_LOCATION)
+        {
+            if ($this->location)
+            {
+                return $this->location;
+            }
+            else
+            {
+                return $this->getObjectId();
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 }

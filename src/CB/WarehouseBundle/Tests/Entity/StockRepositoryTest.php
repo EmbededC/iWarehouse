@@ -47,6 +47,16 @@ class StockRepositoryTest extends KernelTestCase
                 
         $this->assertNotNull($stockFound);
     }
+    
+    public function testFindAllJoinedToLocationAndContainer()
+    {
+        //Test
+        $stockFound = $this->em
+            ->getRepository('CBWarehouseBundle:Stock')
+            ->findAllJoinedToLocationAndContainer();
+
+        $this->assertNotNull($stockFound);
+    }
 
     /**
      * {@inheritDoc}
