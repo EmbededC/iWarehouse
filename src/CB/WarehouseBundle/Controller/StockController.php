@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CB\WarehouseBundle\Entity\Stock;
 use CB\WarehouseBundle\Form\StockType;
+use CB\WarehouseBundle\Form\StockLocationType;
+use CB\WarehouseBundle\Form\StockQuantityType;
 
 /**
  * Stock controller.
@@ -166,7 +168,7 @@ class StockController extends Controller
         );
     }
 
-    /**
+   /**
     * Creates a form to edit a Stock entity.
     *
     * @param Stock $entity The entity
@@ -184,6 +186,45 @@ class StockController extends Controller
 
         return $form;
     }
+    
+   /**
+    * Creates a form to edit a Stock entity.
+    *
+    * @param Stock $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditQuantityForm(Stock $entity)
+    {
+        $form = $this->createForm(new StockQuantityType(), $entity, array(
+            'action' => $this->generateUrl('stock_quantity_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+    
+   /**
+    * Creates a form to edit a Stock entity.
+    *
+    * @param Stock $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditLocationForm(Stock $entity)
+    {
+        $form = $this->createForm(new StockLocationType(), $entity, array(
+            'action' => $this->generateUrl('stock_location_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+    
     /**
      * Edits an existing Stock entity.
      *
@@ -218,6 +259,77 @@ class StockController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+    
+    /**
+     * Edits an existing Stock entity.
+     *
+     * @Route("/{id}/quantity", name="stock_quantity_update")
+     * @Method("PUT")
+     * @Template("CBWarehouseBundle:Stock:edit.html.twig")
+     */
+    public function updateQuantityAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditQuantityForm($entity);
+        $editForm->handleRequest($request);
+
+        //if ($editForm->isValid()) {
+            
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('stock_edit_qtty', array('id' => $id)));
+        //}
+
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+    }
+    
+    /**
+     * Edits an existing Stock entity.
+     *
+     * @Route("/{id}/location", name="stock_location_update")
+     * @Method("PUT")
+     * @Template("CBWarehouseBundle:Stock:edit.html.twig")
+     */
+    public function updateLocationAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditLocationForm($entity);
+        $editForm->handleRequest($request);
+
+        //if ($editForm->isValid()) {
+            
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('stock_move', array('id' => $id)));
+        //}
+
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+    }
+    
     /**
      * Deletes a Stock entity.
      *
@@ -278,7 +390,7 @@ class StockController extends Controller
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditQuantityForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -305,7 +417,7 @@ class StockController extends Controller
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditLocationForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(

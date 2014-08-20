@@ -23,6 +23,28 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
     
     public function validate($stock, Constraint $constraint)
     {
+        //Validation that quantity is not null
+        if (is_null($stock->getQuantity())) {
+            $this->context->addViolationAt(
+                'Stock',
+                $constraint->message,
+                array('%string%' => 'The product quantity can\'t be null'),
+                null
+            );
+            return 9;
+        }
+        
+        //Validation that quantity is greater than 0
+        if ($stock->getQuantity() <= 0) {
+            $this->context->addViolationAt(
+                'Stock',
+                $constraint->message,
+                array('%string%' => 'The product quantity must be greater than 0'),
+                null
+            );
+            return 10;
+        }
+
         //Validation that product exists
         $product = $this->entityManager->getRepository('CBWarehouseBundle:Product')->find($stock->getProduct()->getId());
         if (!$product instanceof \CB\WarehouseBundle\Entity\Product) {
@@ -144,7 +166,8 @@ class ValidStockObjectReferenceValidator extends ConstraintValidator
                     null
                 );
                 return 8;
-        }
+        }        
+        
         
         return 0;
     }

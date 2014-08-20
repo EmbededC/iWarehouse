@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class StockType extends AbstractType
+class StockLocationType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,20 +15,20 @@ class StockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantity')
-            ->add('baseQuantity')
-            ->add('lot')
-            ->add('sn')
-            ->add('expiryDate')
-            ->add('bestBeforeDate')
-            ->add('recivedDate')
-            ->add('productionDate')
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('objectId') //, null, array('help' => 'Container Id or Location Id'))
             ->add('objectType') //, null, array('help' => 'Object Id type: 0 - Container, 1 - Location'))
-            ->add('product')
-            ->add('presentation')
+            ->add('quantity', null, array('disabled' => true))
+            ->add('baseQuantity', null, array('disabled' => true))
+            ->add('lot', null, array('disabled' => true))
+            ->add('sn', null, array('disabled' => true))
+            ->add('expiryDate', null, array('disabled' => true))
+            ->add('bestBeforeDate', null, array('disabled' => true))
+            ->add('recivedDate', null, array('disabled' => true))
+            ->add('productionDate', null, array('disabled' => true))
+            ->add('createdDate', null, array('disabled' => true))
+            ->add('updatedDate', null, array('disabled' => true))
+            ->add('product', null, array('disabled' => true))
+            ->add('presentation', null, array('disabled' => true))
         ;
     }
     

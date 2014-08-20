@@ -72,6 +72,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setObjectId(2);
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
         $stock->setPresentation($presentation);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
         
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
@@ -121,6 +123,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2); //Object Id inexistent
         $stock->setObjectType(Stock::OBJECT_TYPE_LOCATION);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
         $context->expects($this->any())
@@ -176,6 +180,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001_');
         $stock->setObjectId(2);
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
         
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
@@ -232,6 +238,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2);
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
         
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
@@ -288,6 +296,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2); //Object Id inexistent
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
 
         
         
@@ -345,6 +355,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2); //Object Id inexistent
         $stock->setObjectType(Stock::OBJECT_TYPE_LOCATION);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
 
         
         
@@ -402,6 +414,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setSn('SN0001');
         $stock->setObjectId(2);
         $stock->setObjectType(2); //Object Type inexistent
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
 
         
         
@@ -462,6 +476,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $stock->setObjectId(2);
         $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
         $stock->setPresentation($presentation);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
         
         
         $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
@@ -476,6 +492,57 @@ class StockTest extends \PHPUnit_Framework_TestCase
         //Verify that a product with a lote and sn with letters and numbers of length 1 or more are valid
         $result = $this->validator->validate($stock, $constraint);
         $this->assertEquals(8, $result, 'Error validating stock');
+    }
+    
+    public function testValidStockObjectReferenceValidatorQuantityInvalid()
+    {
+        // First, mock the objects to be used in the test
+        $product = $this->CreateTestProduct(10);
+        $presentation = $this->CreateTestProductPresentation(10);
+        $container = $this->getMock('\CB\WarehouseBundle\Entity\Container');
+        
+        //Mock the Entitymanager
+        $em = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        
+        //Get one product and one presentation for the new stock
+        $stock = new Stock();
+        $stock->setProduct($product);
+        $stock->setLot('L001');
+        $stock->setSn('SN0001');
+        $stock->setObjectId(2);
+        $stock->setObjectType(Stock::OBJECT_TYPE_CONTAINER);
+        $stock->setPresentation($presentation);
+        $stock->setQuantity(10);
+        $stock->setBaseQuantity(10);
+                
+        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')-> disableOriginalConstructor()->getMock();
+        $context->expects($this->any())
+            ->method('addViolation')
+            ->with($this->equalTo('[message]'), $this->equalTo(array('%string%', '')));
+
+        $this->validator = new ValidStockObjectReferenceValidator($em);
+        $this->validator->initialize($context);
+        $constraint = new ValidStockObjectReference();
+        
+        //Verify that a stock with quantity lower or equal than 0 is invalid
+        $stock->setQuantity(null);
+        $stock->setBaseQuantity(null);
+        $result = $this->validator->validate($stock, $constraint);
+        $this->assertEquals(9, $result, 'Error validating stock');
+        
+        //Verify that a stock with quantity lower or equal than 0 is invalid
+        $stock->setQuantity(0);
+        $stock->setBaseQuantity(0);
+        $result = $this->validator->validate($stock, $constraint);
+        $this->assertEquals(10, $result, 'Error validating stock');
+        
+        //Verify that a stock with quantity lower or equal than 0 is invalid
+        $stock->setQuantity(-1);
+        $stock->setBaseQuantity(-1);
+        $result = $this->validator->validate($stock, $constraint);
+        $this->assertEquals(10, $result, 'Error validating stock');
     }
     
     public function testEquals()
