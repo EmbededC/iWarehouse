@@ -15,8 +15,6 @@ class ContainerAdmin extends Admin
     {
         $formMapper
             ->add('code')
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('location')
             ->add('containerType')
         ;

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Location
 {
@@ -203,5 +204,21 @@ class Location
     public function getLocationType()
     {
         return $this->locationType;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->setUpdatedDate(new \DateTime());
     }
 }

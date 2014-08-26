@@ -11,6 +11,7 @@ use CB\WarehouseBundle\Validator\Constraints as CBAssert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @CBAssert\ValidProductAliasObjectReference
  */
 class ProductAlias
@@ -202,5 +203,27 @@ class ProductAlias
     public function __toString()
     {
         return $this->code;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->setUpdatedDate(new \DateTime());
     }
 }

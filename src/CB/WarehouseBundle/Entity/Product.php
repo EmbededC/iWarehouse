@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -516,5 +517,21 @@ class Product
     public function getSnMask()
     {
         return $this->snMask;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->setUpdatedDate(new \DateTime());
     }
 }

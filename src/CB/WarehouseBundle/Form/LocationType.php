@@ -16,8 +16,6 @@ class LocationType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('locationType')
         ;
     }

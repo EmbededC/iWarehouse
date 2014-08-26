@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class ProductBaseUnit
 {
@@ -39,6 +40,21 @@ class ProductBaseUnit
      * @ORM\OneToMany(targetEntity="Product", mappedBy="baseUnit")
      */
     protected $products;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdDate", type="datetime")
+     */
+    private $createdDate;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedDate", type="datetime", nullable=true)
+     */
+    private $updatedDate;
+    
     
     /**
      * Constructor
@@ -139,10 +155,72 @@ class ProductBaseUnit
     }
     
     /**
+     * Set createdDate
+     *
+     * @param \DateTime $createdDate
+     * @return Container
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createdDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * Set updatedDate
+     *
+     * @param \DateTime $updatedDate
+     * @return Container
+     */
+    public function setUpdatedDate($updatedDate)
+    {
+        $this->updatedDate = $updatedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+    
+    /**
      * @return string 
      */
     public function __toString()
     {
         return $this->name ." (". $this->description . ")";
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->setUpdatedDate(new \DateTime());
     }
 }

@@ -12,6 +12,7 @@ use CB\WarehouseBundle\Validator\Constraints as CBAssert;
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="CB\WarehouseBundle\Entity\StockRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @CBAssert\ValidStockObjectReference
  * 
  */
@@ -565,5 +566,27 @@ class Stock
         {
             return null;
         }
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->setUpdatedDate(new \DateTime());
     }
 }

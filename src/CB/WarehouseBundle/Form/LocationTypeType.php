@@ -21,8 +21,6 @@ class LocationTypeType extends AbstractType
             ->add('sizeX')
             ->add('sizeY')
             ->add('sizeZ')
-            ->add('createdDate')
-            ->add('updatedDate')
         ;
     }
     

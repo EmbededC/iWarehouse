@@ -38,8 +38,6 @@ class ProductAdmin extends Admin
             ->add('active', null, array(
                 'required' => false,
             ))
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('baseUnit')
         ;
     }

@@ -16,8 +16,6 @@ class ContainerType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('location')
             ->add('containerType')
         ;

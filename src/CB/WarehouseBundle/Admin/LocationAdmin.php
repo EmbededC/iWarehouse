@@ -15,8 +15,6 @@ class LocationAdmin extends Admin
     {
         $formMapper
             ->add('code')
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('locationType')
         ;
     }

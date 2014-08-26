@@ -30,8 +30,6 @@ class ProductPresentationAdmin extends Admin
             ->add('isBase', null, array(
                 'required' => false,
             ))
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('product')
         ;
     }

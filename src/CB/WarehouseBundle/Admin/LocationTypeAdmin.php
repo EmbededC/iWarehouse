@@ -20,8 +20,6 @@ class LocationTypeAdmin extends Admin
             ->add('sizeX')
             ->add('sizeY')
             ->add('sizeZ')
-            ->add('createdDate')
-            ->add('updatedDate')
         ;
     }
 

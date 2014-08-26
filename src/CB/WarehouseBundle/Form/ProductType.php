@@ -33,8 +33,6 @@ class ProductType extends AbstractType
             ->add('active', null, array(
                 'required' => false,
             ))
-            ->add('createdDate')
-            ->add('updatedDate')
             ->add('lotMask')
             ->add('snMask')
             ->add('baseUnit')
