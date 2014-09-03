@@ -21,9 +21,10 @@
 <table class="records_list">
     <thead>
         <tr>
-            <th>Location</th>
+            <th>Product</th>
+            <th>Quantity</th>
             <th>Container</th>
-            <th>Stock</th>
+            <th>Location</th>
             <th></th>
             <th></th>
             <th></th>
@@ -33,9 +34,14 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>{{ entity['location_code'] }}</td>
-            <td>{{ entity['container_code'] }}</td>
+            <td>{{ entity['product_name'] }}</td>
             <td>{{ entity['quantity'] }}</td>
+            <td>{{ entity['container_code'] }}</td>
+            <td>{% if entity['location_code'] %} 
+                    {{ entity['location_code'] }} 
+                {% else %}
+                    {% if entity['container_location_code'] %} {{ entity['container_location_code'] }} {% endif %}
+                {% endif %}</td>
             <td><a href="{{ path('stock_edit_qtty', { 'id': entity['id'] }) }}">Inc/Dec</td>
             <td><a href="{{ path('stock_edit', { 'id': entity['id'] }) }}">Edit</a></td>
             <td><a href="{{ path('stock_move', { 'id': entity['id'] }) }}">Move</a></td>
