@@ -21,7 +21,7 @@
 <table class="records_list">
     <thead>
         <tr>
-            <th>Loaction</th>
+            <th>Location</th>
             <th>Container</th>
             <th>Stock</th>
             <th></th>
@@ -33,21 +33,13 @@
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td>
-                {% if entity.getLocation() %}
-                    {{ entity.getLocation() }}
-                {% endif %}
-            </td>
-            <td>
-                {% if entity.getContainer() %}
-                    {{ entity.getContainer() }}
-                {% endif %}
-            </td>
-            <td>Stock {{ entity }}</td>
-            <td><a href="{{ path('stock_edit_qtty', { 'id': entity.id }) }}">Inc/Dec</td>
-            <td><a href="{{ path('stock_edit', { 'id': entity.id }) }}">Edit</a></td>
-            <td><a href="{{ path('stock_move', { 'id': entity.id }) }}">Move</a></td>
-            <td><a href="{{ path('stock_delete', { 'id': entity.id }) }}">Delete</a></td>
+            <td>{{ entity['location_code'] }}</td>
+            <td>{{ entity['container_code'] }}</td>
+            <td>{{ entity['quantity'] }}</td>
+            <td><a href="{{ path('stock_edit_qtty', { 'id': entity['id'] }) }}">Inc/Dec</td>
+            <td><a href="{{ path('stock_edit', { 'id': entity['id'] }) }}">Edit</a></td>
+            <td><a href="{{ path('stock_move', { 'id': entity['id'] }) }}">Move</a></td>
+            <td><a href="{{ path('stock_delete', { 'id': entity['id'] }) }}">Delete</a></td>
         </tr>
     {% endfor %}
     </tbody>

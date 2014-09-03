@@ -46,24 +46,34 @@ class StockRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         
-        $rsm = new ResultSetMapping();
-        $rsm->addEntityResult('CBWarehouseBundle:Stock', 's');
-        $rsm->addFieldResult('s', 'id', 'id');
-        $rsm->addFieldResult('s', 'quantity', 'quantity');
-        $rsm->addJoinedEntityResult('CBWarehouseBundle:Location' , 'l', 's', 'container');
-        $rsm->addFieldResult('l', 'location_code', 'code');
+        $query = $em->createQuery('SELECT s.id, s.quantity, l.code as location_code, c.code as container_code '
+                . 'FROM CBWarehouseBundle:Stock s ' 
+                . 'LEFT JOIN CBWarehouseBundle:Location l WITH l.id = s.objectId '
+                . 'LEFT JOIN CBWarehouseBundle:Container c WITH c.id = s.objectId');
 
-        
-        $query = $em->createNativeQuery(
-            'SELECT s.id, s.quantity, l.code as location_code
-            FROM Stock s
-            LEFT JOIN Location l ON l.id = s.objectId',
-            //LEFT JOIN Container c ON c.id = s.objectId',
-            //LIMIT 0 , 30
-            $rsm
-        );
-        
         return $query->getResult();
+        
+        //->add('from', 'NameBundle:Entity1 nb1 JOIN NameBundle:Entity2 nb2 WITH nb1.id = nb2.id')
+        
+        
+//        $rsm = new ResultSetMapping();
+//        $rsm->addEntityResult('CBWarehouseBundle:Stock', 's');
+//        $rsm->addFieldResult('s', 'id', 'id');
+//        $rsm->addFieldResult('s', 'quantity', 'quantity');
+//        $rsm->addJoinedEntityResult('CBWarehouseBundle:Location' , 'l', 's', 'container');
+//        $rsm->addFieldResult('l', 'location_code', 'code');
+//
+//        
+//        $query = $em->createNativeQuery(
+//            'SELECT s.id, s.quantity, l.code as location_code
+//            FROM Stock s
+//            LEFT JOIN Location l ON l.id = s.objectId',
+//            //LEFT JOIN Container c ON c.id = s.objectId',
+//            //LIMIT 0 , 30
+//            $rsm
+//        );
+//        
+//        return $query->getResult();
 
         
 //        $rsm = new ResultSetMappingBuilder($em);
