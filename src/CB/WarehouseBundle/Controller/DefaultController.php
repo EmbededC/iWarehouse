@@ -19,7 +19,7 @@ class DefaultController extends Controller
         //$entities = $em->getRepository('CBWarehouseBundle:Stock')->findAll();
         $entities = $em->getRepository('CBWarehouseBundle:Stock')->findAllJoinedToLocationAndContainer();
         
-        \Doctrine\Common\Util\Debug::dump($entities);
+        //\Doctrine\Common\Util\Debug::dump($entities);
 
         return array(
             'entities' => $entities,
