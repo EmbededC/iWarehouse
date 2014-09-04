@@ -34,6 +34,11 @@ class EventType
      * @ORM\Column(name="Description", type="string", length=255)
      */
     private $description;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EventLog", mappedBy="eventType")
+     */
+    protected $eventLogs;
 
 
     /**
@@ -90,5 +95,54 @@ class EventType
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->eventLogs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
+    /**
+     * Add eventLogs
+     *
+     * @param \CB\WarehouseBundle\Entity\EventLog $eventLog
+     * @return Product
+     */
+    public function addStock(\CB\WarehouseBundle\Entity\EventLog $eventLog)
+    {
+        $this->eventLogs[] = $eventLog;
+
+        return $this;
+    }
+
+    /**
+     * Remove eventLogs
+     *
+     * @param \CB\WarehouseBundle\Entity\EventLog $eventLog
+     */
+    public function removeStock(\CB\WarehouseBundle\Entity\EventLog $eventLog)
+    {
+        $this->eventLogs->removeElement($eventLog);
+    }
+
+    /**
+     * Get eventLogs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEventLogs()
+    {
+        return $this->eventLogs;
     }
 }
