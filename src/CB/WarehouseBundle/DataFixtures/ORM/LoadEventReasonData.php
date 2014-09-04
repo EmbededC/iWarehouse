@@ -26,7 +26,7 @@ class LoadEventReasonData extends AbstractFixture implements OrderedFixtureInter
         $manager->persist($reason2);
         
         $reason3 = new EventReason();
-        $reason1->setCode('STOCK_RECEIVED');
+        $reason3->setCode('STOCK_RECEIVED');
         $reason3->setDescription('Stock received');
         $manager->persist($reason3);
         

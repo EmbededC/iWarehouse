@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CB\WarehouseBundle\Entity\Stock;
+use CB\WarehouseBundle\Entity\EventLog;
 use CB\WarehouseBundle\Form\StockType;
 use CB\WarehouseBundle\Form\StockLocationType;
 use CB\WarehouseBundle\Form\StockQuantityType;
@@ -60,17 +61,46 @@ class StockController extends Controller
             {
                 //Add stock to existing stock
                 $stockToMerge->setQuantity($stockToMerge->getQuantity() + $entity->getQuantity());
+                $stockToMerge->setBaseQuantity($stockToMerge->getBaseQuantity() + $entity->getBaseQuantity());
                 $em->persist($stockToMerge);
                 $em->flush();
+                
+                //Add log
+                $log = new EventLog();
+                $log->setCreatedAt(new \DateTime());
+                $log->setDescription('Desc');
+                $log->setEvent($em->getRepository('CBWarehouseBundle:Event')->findOneByCode('STOCK_INCDEC'));
+                $log->setEventReason($em->getRepository('CBWarehouseBundle:EventReason')->findOneByCode('STOCK_RECEIVED'));
+                $log->setEventType($em->getRepository('CBWarehouseBundle:EventType')->findOneByCode('UPDATE'));
+                $log->setObject($stockToMerge->getId());
+                $log->setObjectType(get_class($stockToMerge));
+                $log->setUser(0);
+                $em->persist($log);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('stock_show', array('id' => $stockToMerge->getId())));
             }
             else
             {            
                 //Create a new stock
                 $em->persist($entity);
                 $em->flush();
+                
+                //Add log
+                $log = new EventLog();
+                $log->setCreatedAt(new \DateTime());
+                $log->setDescription('Desc');
+                $log->setEvent($em->getRepository('CBWarehouseBundle:Event')->findOneByCode('STOCK_CREATE'));
+                $log->setEventReason($em->getRepository('CBWarehouseBundle:EventReason')->findOneByCode('STOCK_RECEIVED'));
+                $log->setEventType($em->getRepository('CBWarehouseBundle:EventType')->findOneByCode('CREATE'));
+                $log->setObject($entity->getId());
+                $log->setObjectType(get_class($entity));
+                $log->setUser(0);
+                $em->persist($log);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
             }
-
-            return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
         }
 
         return array(
