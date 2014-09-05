@@ -3,6 +3,7 @@
 namespace CB\WarehouseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMSA;
 
 /**
  * ProductBaseUnit
@@ -38,6 +39,7 @@ class ProductBaseUnit
     
     /**
      * @ORM\OneToMany(targetEntity="Product", mappedBy="baseUnit")
+     * @JMSA\Exclude
      */
     protected $products;
     

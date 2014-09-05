@@ -35,12 +35,18 @@ class LoadEventReasonData extends AbstractFixture implements OrderedFixtureInter
         $reason4->setDescription('Stock send');
         $manager->persist($reason4);
         
+        $reason5 = new EventReason();
+        $reason5->setCode('STOCK_COUNT');
+        $reason5->setDescription('Stock count');
+        $manager->persist($reason5);
+        
         $manager->flush();
         
         $this->addReference('reason_1', $reason1);
         $this->addReference('reason_2', $reason2);
         $this->addReference('reason_3', $reason3);
         $this->addReference('reason_4', $reason4);
+        $this->addReference('reason_5', $reason5);
     }
     
     /**

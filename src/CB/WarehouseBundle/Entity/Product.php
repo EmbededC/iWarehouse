@@ -3,6 +3,7 @@
 namespace CB\WarehouseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMSA;
 
 /**
  * Product
@@ -94,17 +95,20 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="Stock", mappedBy="product")
+     * @JMSA\Exclude
      */
     protected $stocks;
     
     /**
      * @ORM\OneToMany(targetEntity="ProductPresentations", mappedBy="product")
+     * @JMSA\Exclude
      */
     protected $presentations;
     
     /**
      * @ORM\ManyToOne(targetEntity="ProductBaseUnit", inversedBy="products")
      * @ORM\JoinColumn(name="baseUnit_id", referencedColumnName="id")
+     * @JMSA\MaxDepth(1)
      */
     protected $baseUnit;
     

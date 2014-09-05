@@ -5,6 +5,7 @@ namespace CB\WarehouseBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use CB\WarehouseBundle\Validator\Constraints as CBAssert;
+use JMS\Serializer\Annotation as JMSA;
 
 /**
  * Stock
@@ -116,6 +117,7 @@ class Stock
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="stocks")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @JMSA\MaxDepth(1)
      */
     protected $product;
     
@@ -142,17 +144,20 @@ class Stock
     /**
      * @ORM\ManyToOne(targetEntity="ProductPresentations", inversedBy="stocks")
      * @ORM\JoinColumn(name="presentation_id", referencedColumnName="id")
+     * @JMSA\MaxDepth(1)
      */
     protected $presentation;
     
     /**
      * Stock Location: Not stored into database => must be set by the controller
      * @var type 
+     * @JMSA\Exclude
      */
     protected $location;
     /**
      * Stock Container: Not stored into database => must be set by the controller
      * @var type 
+     * @JMSA\Exclude
      */
     protected $container;
 

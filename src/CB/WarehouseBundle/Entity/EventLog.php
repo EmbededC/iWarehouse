@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CB\WarehouseBundle\Entity\EventLogRepository")
  */
 class EventLog
 {
@@ -70,7 +71,14 @@ class EventLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="Object", type="integer")
+     * @ORM\Column(name="ObjectId", type="integer")
+     */
+    private $objectId;
+    
+    /**
+     *
+     * @var text
+     * @ORM\Column(name="Object", type="text")
      */
     private $object;
 
@@ -178,9 +186,32 @@ class EventLog
     }
 
     /**
+     * Set objectId
+     *
+     * @param integer $objectId
+     * @return EventLog
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId
+     *
+     * @return integer 
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+    
+    /**
      * Set object
      *
-     * @param integer $object
+     * @param text $object
      * @return EventLog
      */
     public function setObject($object)
@@ -193,7 +224,7 @@ class EventLog
     /**
      * Get object
      *
-     * @return integer 
+     * @return text
      */
     public function getObject()
     {

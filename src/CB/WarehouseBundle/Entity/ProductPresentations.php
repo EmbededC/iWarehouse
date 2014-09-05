@@ -3,6 +3,7 @@
 namespace CB\WarehouseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMSA;
 
 /**
  * ProductPresentations
@@ -110,11 +111,13 @@ class ProductPresentations
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="presentations")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @JMSA\Exclude
      */
     protected $product;
     
     /**
      * @ORM\OneToMany(targetEntity="Stock", mappedBy="presentation")
+     * @JMSA\Exclude
      */
     protected $stocks;
 

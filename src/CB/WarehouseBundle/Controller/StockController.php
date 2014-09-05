@@ -65,48 +65,31 @@ class StockController extends Controller
                 $em->persist($stockToMerge);
                 $em->flush();
                 
-                //Add log
-                $log = new EventLog();
-                $log->setCreatedAt(new \DateTime());
-                $log->setDescription('Desc');
-                $log->setEvent($em->getRepository('CBWarehouseBundle:Event')->findOneByCode('STOCK_INCDEC'));
-                $log->setEventReason($em->getRepository('CBWarehouseBundle:EventReason')->findOneByCode('STOCK_RECEIVED'));
-                $log->setEventType($em->getRepository('CBWarehouseBundle:EventType')->findOneByCode('UPDATE'));
-                $log->setObject($stockToMerge->getId());
-                $log->setObjectType(get_class($stockToMerge));
-                $log->setUser(0);
-                $em->persist($log);
+                $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $stockToMerge, $stockToMerge->getId(), 0));
                 $em->flush();
                 
-                return $this->redirect($this->generateUrl('stock_show', array('id' => $stockToMerge->getId())));
+                //return $this->redirect($this->generateUrl('stock_show', array('id' => $stockToMerge->getId())));
             }
             else
-            {            
+            {
                 //Create a new stock
                 $em->persist($entity);
                 $em->flush();
                 
-                //Add log
-                $log = new EventLog();
-                $log->setCreatedAt(new \DateTime());
-                $log->setDescription('Desc');
-                $log->setEvent($em->getRepository('CBWarehouseBundle:Event')->findOneByCode('STOCK_CREATE'));
-                $log->setEventReason($em->getRepository('CBWarehouseBundle:EventReason')->findOneByCode('STOCK_RECEIVED'));
-                $log->setEventType($em->getRepository('CBWarehouseBundle:EventType')->findOneByCode('CREATE'));
-                $log->setObject($entity->getId());
-                $log->setObjectType(get_class($entity));
-                $log->setUser(0);
-                $em->persist($log);
+                $em->persist($this->AddEventLog($em, 'desc', 'STOCK_CREATE', 'STOCK_RECEIVED', 'CREATE', $entity, $entity->getId(), 0));
                 $em->flush();
                 
-                return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
+                //return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
             }
         }
+        
+        return $this->redirect($this->generateUrl('default_index'));
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+//        return array(
+//            'entity' => $entity,
+//            'form'   => $form->createView(),
+//        );
+        
     }
 
     /**
@@ -280,7 +263,11 @@ class StockController extends Controller
             
             $em->flush();
 
-            return $this->redirect($this->generateUrl('stock_edit', array('id' => $id)));
+            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MODIFY', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+            $em->flush();
+            
+            //return $this->redirect($this->generateUrl('stock_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('default_index'));
         }
 
         return array(
@@ -311,11 +298,13 @@ class StockController extends Controller
         $editForm = $this->createEditQuantityForm($entity);
         $editForm->handleRequest($request);
 
+        $em->flush();
+        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+        $em->flush();
+        return $this->redirect($this->generateUrl('default_index'));
+        
         //if ($editForm->isValid()) {
-            
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('stock_edit_qtty', array('id' => $id)));
+            //return $this->redirect($this->generateUrl('stock_edit_qtty', array('id' => $id)));            
         //}
 
 //        return array(
@@ -350,7 +339,12 @@ class StockController extends Controller
             
             $em->flush();
 
-            return $this->redirect($this->generateUrl('stock_move', array('id' => $id)));
+            //return $this->redirect($this->generateUrl('stock_move', array('id' => $id)));
+            
+            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MOVE', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+            $em->flush();
+            
+            return $this->redirect($this->generateUrl('default_index'));
         //}
 
 //        return array(
@@ -379,11 +373,16 @@ class StockController extends Controller
                 throw $this->createNotFoundException('Unable to find Stock entity.');
             }
 
+            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_DELETE', 'STOCK_SEND', 'DELETE', $entity, $entity->getId(), 0));
+            $em->flush();
+            
             $em->remove($entity);
             $em->flush();
         }
+        
+        return $this->redirect($this->generateUrl('default_index'));
 
-        return $this->redirect($this->generateUrl('stock'));
+        //return $this->redirect($this->generateUrl('stock'));
     }
 
     /**
@@ -455,5 +454,22 @@ class StockController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    
+    private function AddEventLog($em, $description, $event, $reason, $eventType, $object, $objectId, $userId)
+    {
+        //Add log
+        $log = new EventLog();
+        $log->setCreatedAt(new \DateTime());
+        $log->setDescription($description);
+        $log->setEvent($em->getRepository('CBWarehouseBundle:Event')->findOneByCode($event));
+        $log->setEventReason($em->getRepository('CBWarehouseBundle:EventReason')->findOneByCode($reason));
+        $log->setEventType($em->getRepository('CBWarehouseBundle:EventType')->findOneByCode($eventType));
+        $log->setObjectId($objectId);
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        $log->setObject($serializer->serialize($object, 'json'));
+        $log->setObjectType(get_class($object));
+        $log->setUser($userId);
+        return $log;
     }
 }
