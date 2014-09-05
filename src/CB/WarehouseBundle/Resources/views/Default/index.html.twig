@@ -10,14 +10,23 @@
         <b>Modify stock attributes</b>. <i>Note that the location or quantity can't change with this option, instead use move stock or inc/dec or add or delete stock.</i>
     </li>
     <li>
-        <b>Move stock</b> from one location/container to another.
+        <b>Move stock</b> <i>from one location/container to another.</i>
     </li>
     <li>
-        <b>Delete stock</b> <i>Note that can delete all the stock or a part. With this can reduce the quantity like the inc/dec stock option.</i>
+        <b>Delete stock</b> <i>Note that can delete all the stock. To delete a part of the stock use inc/dec option.</i>
+    </li>
+</ul>
+<h1>Warehouse composed operations</h1>
+<ul>
+    <li>
+        <b>Split stock</b> <i>To split, decrement stock and add a new stock.</i>
+    </li>
+    <li>
+        <b>Merge stock</b> <i>To merge one stock with another, decrement/delete the first stock and add a new one to the same location of the other stock.</i>
     </li>
 </ul>
 
-<h1>Warehouse map</h1>
+<h1>Warehouse stock list</h1>
 <p><a href="{{ path('stock_new') }}"><b>Add stock</b></a></p>
 <table class="records_list">
     <thead>
