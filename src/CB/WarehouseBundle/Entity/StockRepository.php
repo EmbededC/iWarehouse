@@ -15,11 +15,11 @@ class StockRepository extends EntityRepository
         
     /**
      * Gets the first stock that has the same attributes (except quantity) that
-     * the stock passed as a parameter
+     * the stock passed as a parameter in the same location
      * 
      * @return \CB\WarehouseBundle\Entity\Stock or null if not found
      */
-    public function findEqual(\CB\WarehouseBundle\Entity\Stock $stock)
+    public function findEqualInSameLocation(\CB\WarehouseBundle\Entity\Stock $stock)
     {
         //This sentence doesn't works in tests
         //$repository = $this->getDoctrine()->getManager()->getRepository('CBWarehouseBundle:Stock');

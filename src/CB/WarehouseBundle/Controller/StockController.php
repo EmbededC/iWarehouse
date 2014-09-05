@@ -38,6 +38,7 @@ class StockController extends Controller
             'entities' => $entities,
         );
     }
+    
     /**
      * Creates a new Stock entity.
      *
@@ -54,30 +55,7 @@ class StockController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
-            //Check if there is another stock into the same container or location with the same attributes
-            //if exists modify the found stock adding the new quantity
-            $stockToMerge = $em->getRepository('CBWarehouseBundle:Stock')->findEqual($entity);
-            
-            if ($stockToMerge)
-            {
-                //Add stock to existing stock
-                $stockToMerge->setQuantity($stockToMerge->getQuantity() + $entity->getQuantity());
-                $stockToMerge->setBaseQuantity($stockToMerge->getBaseQuantity() + $entity->getBaseQuantity());
-                $em->persist($stockToMerge);
-                $em->flush();
-                
-                $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $stockToMerge, $stockToMerge->getId(), 0));
-                $em->flush();
-            }
-            else
-            {
-                //Create a new stock
-                $em->persist($entity);
-                $em->flush();
-                
-                $em->persist($this->AddEventLog($em, 'desc', 'STOCK_CREATE', 'STOCK_RECEIVED', 'CREATE', $entity, $entity->getId(), 0));
-                $em->flush();
-            }
+            $this->CreateStockMerging($em, $entity, TRUE, 'STOCK_CREATE');
         }
         
         return $this->redirect($this->generateUrl('default_index'));
@@ -269,10 +247,12 @@ class StockController extends Controller
 
         if ($editForm->isValid()) {
             
-            $em->flush();
+            $this->CreateStockMerging($em, $entity, TRUE, 'STOCK_MODIFY');
 
-            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MODIFY', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
-            $em->flush();
+            //$em->flush();
+            
+            //$em->persist($this->AddEventLog($em, 'desc', 'STOCK_MODIFY', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+            //$em->flush();
             
             return $this->redirect($this->generateUrl('default_index'));
         }
@@ -306,6 +286,7 @@ class StockController extends Controller
         
         $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
         $em->flush();
+        
         return $this->redirect($this->generateUrl('default_index'));        
     }
     
@@ -327,10 +308,18 @@ class StockController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditLocationForm($entity);
         $editForm->handleRequest($request);
-        $em->flush();
+        
+        if ($this->CreateStockMerging($em, $entity, TRUE, 'STOCK_MOVE'))
+        {
+            //If merge, then delete origin stock
+            $em->remove($entity);
+            $em->flush();
+        }
+        
+        //$em->flush();
 
-        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MOVE', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
-        $em->flush();
+        //$em->persist($this->AddEventLog($em, 'desc', 'STOCK_MOVE', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+        //$em->flush();
 
         return $this->redirect($this->generateUrl('default_index'));
     }
@@ -358,7 +347,8 @@ class StockController extends Controller
         $editForm = $this->createEditSplitForm($entity);
         $editForm->handleRequest($request);
 
-        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'UPDATE', $entity, $entity->getId(), 0));
+        $this->CreateStockMerging($em, $entity, TRUE, 'STOCK_SPLIT');
+        //$em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'UPDATE', $entity, $entity->getId(), 0));
         
         $newEntity = new Stock();
         $newEntity->setBestBeforeDate($entity->getBestBeforeDate());
@@ -375,10 +365,13 @@ class StockController extends Controller
         $newEntity->setQuantity($oldQuantity - $entity->getQuantity() );
         $newEntity->setBaseQuantity($oldBaseQuantity - $entity->getBaseQuantity() );
         $em->persist($newEntity);
-        $em->flush();
         
-        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'CREATE', $newEntity, $newEntity->getId(), 0));
-        $em->flush();
+        $this->CreateStockMerging($em, $newEntity, TRUE, 'STOCK_SPLIT');
+        
+        //$em->flush();
+        
+        //$em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'CREATE', $newEntity, $newEntity->getId(), 0));
+        //$em->flush();
 
         return $this->redirect($this->generateUrl('default_index'));
     }
@@ -525,5 +518,37 @@ class StockController extends Controller
         $log->setObjectType(get_class($object));
         $log->setUser($userId);
         return $log;
+    }
+    
+    private function CreateStockMerging($em, $entity, $merge, $event)
+    {
+        //Check if there is another stock into the same container or location with the same attributes
+        //if exists modify the found stock adding the new quantity
+        $stockToMerge = $em->getRepository('CBWarehouseBundle:Stock')->findEqualInSameLocation($entity);
+
+        if ($stockToMerge && $merge)
+        {
+            //Add stock to existing stock
+            $stockToMerge->setQuantity($stockToMerge->getQuantity() + $entity->getQuantity());
+            $stockToMerge->setBaseQuantity($stockToMerge->getBaseQuantity() + $entity->getBaseQuantity());
+            $em->persist($stockToMerge);
+            $em->flush();
+
+            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $stockToMerge, $stockToMerge->getId(), 0));
+            $em->flush();
+            
+            return true;
+        }
+        else
+        {
+            //Create a new stock
+            $em->persist($entity);
+            $em->flush();
+
+            $em->persist($this->AddEventLog($em, 'desc', $event, 'STOCK_RECEIVED', 'CREATE', $entity, $entity->getId(), 0));
+            $em->flush();
+            
+            return false;
+        }
     }
 }
