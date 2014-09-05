@@ -12,6 +12,7 @@ use CB\WarehouseBundle\Entity\EventLog;
 use CB\WarehouseBundle\Form\StockType;
 use CB\WarehouseBundle\Form\StockLocationType;
 use CB\WarehouseBundle\Form\StockQuantityType;
+use CB\WarehouseBundle\Form\StockSplitType;
 
 /**
  * Stock controller.
@@ -67,8 +68,6 @@ class StockController extends Controller
                 
                 $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $stockToMerge, $stockToMerge->getId(), 0));
                 $em->flush();
-                
-                //return $this->redirect($this->generateUrl('stock_show', array('id' => $stockToMerge->getId())));
             }
             else
             {
@@ -78,18 +77,10 @@ class StockController extends Controller
                 
                 $em->persist($this->AddEventLog($em, 'desc', 'STOCK_CREATE', 'STOCK_RECEIVED', 'CREATE', $entity, $entity->getId(), 0));
                 $em->flush();
-                
-                //return $this->redirect($this->generateUrl('stock_show', array('id' => $entity->getId())));
             }
         }
         
         return $this->redirect($this->generateUrl('default_index'));
-
-//        return array(
-//            'entity' => $entity,
-//            'form'   => $form->createView(),
-//        );
-        
     }
 
     /**
@@ -239,6 +230,25 @@ class StockController extends Controller
     }
     
     /**
+    * Creates a form to edit a Stock entity.
+    *
+    * @param Stock $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditSplitForm(Stock $entity)
+    {
+        $form = $this->createForm(new StockSplitType(), $entity, array(
+            'action' => $this->generateUrl('stock_split', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+    
+    /**
      * Edits an existing Stock entity.
      *
      * @Route("/{id}", name="stock_update")
@@ -248,9 +258,7 @@ class StockController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
@@ -266,7 +274,6 @@ class StockController extends Controller
             $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MODIFY', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
             $em->flush();
             
-            //return $this->redirect($this->generateUrl('stock_edit', array('id' => $id)));
             return $this->redirect($this->generateUrl('default_index'));
         }
 
@@ -287,9 +294,7 @@ class StockController extends Controller
     public function updateQuantityAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
@@ -297,21 +302,11 @@ class StockController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditQuantityForm($entity);
         $editForm->handleRequest($request);
-
         $em->flush();
+        
         $em->persist($this->AddEventLog($em, 'desc', 'STOCK_INCDEC', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
         $em->flush();
-        return $this->redirect($this->generateUrl('default_index'));
-        
-        //if ($editForm->isValid()) {
-            //return $this->redirect($this->generateUrl('stock_edit_qtty', array('id' => $id)));            
-        //}
-
-//        return array(
-//            'entity'      => $entity,
-//            'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        );
+        return $this->redirect($this->generateUrl('default_index'));        
     }
     
     /**
@@ -324,9 +319,7 @@ class StockController extends Controller
     public function updateLocationAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stock entity.');
         }
@@ -334,24 +327,60 @@ class StockController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditLocationForm($entity);
         $editForm->handleRequest($request);
+        $em->flush();
 
-        //if ($editForm->isValid()) {
-            
-            $em->flush();
+        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MOVE', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
+        $em->flush();
 
-            //return $this->redirect($this->generateUrl('stock_move', array('id' => $id)));
-            
-            $em->persist($this->AddEventLog($em, 'desc', 'STOCK_MOVE', 'STOCK_RECEIVED', 'UPDATE', $entity, $entity->getId(), 0));
-            $em->flush();
-            
-            return $this->redirect($this->generateUrl('default_index'));
-        //}
+        return $this->redirect($this->generateUrl('default_index'));
+    }
+    
+    /**
+     * Edits an existing Stock entity and splits.
+     *
+     * @Route("/{id}/split", name="stock_split_update")
+     * @Method("PUT")
+     * @Template("CBWarehouseBundle:Stock:edit.html.twig")
+     */
+    public function splitAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+        $oldQuantity = $entity->getQuantity();
+        $oldBaseQuantity = $entity->getBaseQuantity();
+        $oldObjectId = $entity->getObjectId();
+        $oldObjectType = $entity->getObjectType();
+        
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditSplitForm($entity);
+        $editForm->handleRequest($request);
 
-//        return array(
-//            'entity'      => $entity,
-//            'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        );
+        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'UPDATE', $entity, $entity->getId(), 0));
+        
+        $newEntity = new Stock();
+        $newEntity->setBestBeforeDate($entity->getBestBeforeDate());
+        $newEntity->setExpiryDate($entity->getExpiryDate());
+        $newEntity->setLot($entity->getLot());
+        $newEntity->setObjectId($oldObjectId);
+        $newEntity->setObjectType($oldObjectType);
+        $newEntity->setPresentation($entity->getPresentation());
+        $newEntity->setProduct($entity->getProduct());
+        $newEntity->setProductionDate($entity->getProductionDate());
+        $newEntity->setRecivedDate($entity->getRecivedDate());
+        $newEntity->setSn($entity->getSn());
+        $newEntity->setUpdatedDate($entity->getUpdatedDate());
+        $newEntity->setQuantity($oldQuantity - $entity->getQuantity() );
+        $newEntity->setBaseQuantity($oldBaseQuantity - $entity->getBaseQuantity() );
+        $em->persist($newEntity);
+        $em->flush();
+        
+        $em->persist($this->AddEventLog($em, 'desc', 'STOCK_SPLIT', 'STOCK_PICKING', 'CREATE', $newEntity, $newEntity->getId(), 0));
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('default_index'));
     }
     
     /**
@@ -381,8 +410,6 @@ class StockController extends Controller
         }
         
         return $this->redirect($this->generateUrl('default_index'));
-
-        //return $this->redirect($this->generateUrl('stock'));
     }
 
     /**
@@ -447,6 +474,33 @@ class StockController extends Controller
         }
 
         $editForm = $this->createEditLocationForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
+    /**
+     * Displays a form to edit an existing Stock entity.
+     *
+     * @Route("/{id}/split", name="stock_split")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editSplitAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Stock')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Stock entity.');
+        }
+
+        $editForm = $this->createEditSplitForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(

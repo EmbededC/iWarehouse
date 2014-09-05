@@ -40,6 +40,16 @@ class LoadEventData extends AbstractFixture implements OrderedFixtureInterface
         $event5->setDescription('Event launched when a user wants to delete stock');
         $manager->persist($event5);
         
+        $event6 = new Event();
+        $event6->setCode('STOCK_SPLIT');
+        $event6->setDescription('Stock split');
+        $manager->persist($event6);
+
+        $event7 = new Event();
+        $event7->setCode('STOCK_MERGE');
+        $event7->setDescription('Stock merge');
+        $manager->persist($event7);
+        
         $manager->flush();
         
         $this->addReference('event_1', $event1);
@@ -47,6 +57,8 @@ class LoadEventData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('event_3', $event3);
         $this->addReference('event_4', $event4);
         $this->addReference('event_5', $event5);
+        $this->addReference('event_6', $event6);
+        $this->addReference('event_7', $event7);
         
     }
     

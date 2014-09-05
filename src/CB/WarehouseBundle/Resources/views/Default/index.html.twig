@@ -56,6 +56,7 @@
             <td><a href="{{ path('stock_edit', { 'id': entity['id'] }) }}"><b>Modify</b></a></td>
             <td><a href="{{ path('stock_move', { 'id': entity['id'] }) }}"><b>Move</b></a></td>
             <td><a href="{{ path('stock_delete', { 'id': entity['id'] }) }}"><b>Delete</b></a></td>
+            <td><a href="{{ path('stock_split', { 'id': entity['id'] }) }}"><b>Split</b></a></td>
         </tr>
     {% endfor %}
     </tbody>
