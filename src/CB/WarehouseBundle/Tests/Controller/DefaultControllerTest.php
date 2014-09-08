@@ -1,4 +1,8 @@
 <?php
+/*
+ * To execute this test: phpunit -c app src/CB/WarehouseBundle/Tests/Controller/DefaultControllerTest
+ * To execute all tests: phpunit -c app
+ */
 
 namespace CB\WarehouseBundle\Tests\Controller;
 
@@ -21,5 +25,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("Modify stock attributes")')->count() > 0);
         $this->assertTrue($crawler->filter('html:contains("Move stock")')->count() > 0);
         $this->assertTrue($crawler->filter('html:contains("Delete stock")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Split stock")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Merge stock")')->count() > 0);
     }
 }

@@ -27,14 +27,14 @@ class StockRepositoryTest extends KernelTestCase
             ->getManager();
     }
 
-    public function testFindEqual()
+    public function testFindEqualInSameLocation()
     {
         $stock = new \CB\WarehouseBundle\Entity\Stock();
         
         //Test can't find stock
         $stockFound = $this->em
             ->getRepository('CBWarehouseBundle:Stock')
-            ->findEqual($stock);
+            ->findEqualInSameLocation($stock);
 
         $this->assertNull($stockFound);
         
@@ -43,7 +43,7 @@ class StockRepositoryTest extends KernelTestCase
         
         $stockFound = $this->em
             ->getRepository('CBWarehouseBundle:Stock')
-            ->findEqual($stocks[0]);
+            ->findEqualInSameLocation($stocks[0]);
                 
         $this->assertNotNull($stockFound);
     }
