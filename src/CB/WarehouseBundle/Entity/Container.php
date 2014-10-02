@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CB\WarehouseBundle\Entity\ContainerRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Container

@@ -16,13 +16,16 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$entities = $em->getRepository('CBWarehouseBundle:Stock')->findAll();
         $entities = $em->getRepository('CBWarehouseBundle:Stock')->findAllJoinedToLocationAndContainer();
+        $locEntities = $em->getRepository('CBWarehouseBundle:Location')->findAllJoinedToContainerAndStock();
+        $conEntities = $em->getRepository('CBWarehouseBundle:Container')->findAllJoinedToLocationAndStock();
         
         //\Doctrine\Common\Util\Debug::dump($entities);
 
         return array(
             'entities' => $entities,
+            'locEntities' => $locEntities,
+            'conEntities' => $conEntities,
         );
     }
     

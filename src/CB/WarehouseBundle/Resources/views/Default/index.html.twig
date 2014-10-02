@@ -1,31 +1,3 @@
-<h1>Warehouse basic operations</h1>
-<ul>
-    <li>
-        <b>Add stock</b> into a location or a container. <i>Note that if there is another stock into the container/location with the same attributes, the new stock will merge with the existing adding its quantities.</i>
-    </li>
-    <li>
-        <b>Inc/Dec stock</b> to increment or decrement the stock quantity. <i>Note that this option is the best to increment or reduce stock but with add and delete options it can be possible too.</i>
-    </li>
-    <li>
-        <b>Modify stock attributes</b>. <i>Note that the location or quantity can't change with this option, instead use move stock or inc/dec or add or delete stock.</i>
-    </li>
-    <li>
-        <b>Move stock</b> <i>from one location/container to another.</i>
-    </li>
-    <li>
-        <b>Delete stock</b> <i>Note that can delete all the stock. To delete a part of the stock use inc/dec option.</i>
-    </li>
-</ul>
-<h1>Warehouse composed operations</h1>
-<ul>
-    <li>
-        <b>Split stock</b> <i>To split, decrement stock and add a new stock.</i>
-    </li>
-    <li>
-        <b>Merge stock</b> <i>To merge one stock with another, decrement/delete the first stock and add a new one to the same location of the other stock.</i>
-    </li>
-</ul>
-
 <h1>Warehouse stock list</h1>
 <p><a href="{{ path('stock_new') }}"><b>Add stock</b></a></p>
 <table class="records_list">
@@ -61,3 +33,118 @@
     {% endfor %}
     </tbody>
 </table>
+
+<h1>Warehouse location list</h1>
+<p><a href="{{ path('location_new') }}"><b>Create location</b></a></p>
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Container</th>
+            <th>Stock</th>
+            <th>Quantity</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for locEntity in locEntities %}
+        <tr>
+            <td>{{ locEntity['code'] }}</td>
+            <td>{{ locEntity['container_code'] }}</td>
+            <td>{{ locEntity['product_name'] }}</td>
+            <td>{{ locEntity['quantity'] }}</td>
+            <td><a href="{{ path('location_edit', { 'id': locEntity['id'] }) }}"><b>Modify</b></a></td>
+            <td><a href="{{ path('location_delete', { 'id': locEntity['id'] }) }}"><b>Delete</b></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h1>Warehouse container list</h1>
+<p><a href="{{ path('container_new') }}"><b>Create container</b></a></p>
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Container</th>
+            <th>Location</th>
+            <th>Stock</th>
+            <th>Quantity</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for conEntity in conEntities %}
+        <tr>
+            <td>{{ conEntity['code'] }}</td>
+            <td>{{ conEntity['location_code'] }}</td>
+            <td>{{ conEntity['product_name'] }}</td>
+            <td>{{ conEntity['quantity'] }}</td>
+            <td><a href="{{ path('container_edit', { 'id': conEntity['id'] }) }}"><b>Modify</b></a></td>
+            <td><a href="{{ path('container_move', { 'id': conEntity['id'] }) }}"><b>Move</b></a></td>
+            <td><a href="{{ path('container_delete', { 'id': conEntity['id'] }) }}"><b>Delete</b></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h1>Help</h1>
+<h2>Warehouse configuration operations</h2>
+<ul>
+    <li>
+        <b>Create location</b> into the warehouse.
+    </li>
+    <li>
+        <b>Modify location</b>
+    </li>
+    <li>
+        <b>Delete location</b> <i>Only can delete a location if hasn't containers or stock.</i>
+    </li>
+</ul>
+<h2>Warehouse stock basic operations</h2>
+<ul>
+    <li>
+        <b>Add stock</b> into a location or a container. <i>Note that if there is another stock into the container/location with the same attributes, the new stock will merge with the existing adding its quantities.</i>
+    </li>
+    <li>
+        <b>Inc/Dec stock</b> to increment or decrement the stock quantity. <i>Note that this option is the best to increment or reduce stock but with add and delete options it can be possible too.</i>
+    </li>
+    <li>
+        <b>Modify stock attributes</b>. <i>Note that the location or quantity can't change with this option, instead use move stock or inc/dec or add or delete stock.</i>
+    </li>
+    <li>
+        <b>Move stock</b> <i>from one location/container to another.</i>
+    </li>
+    <li>
+        <b>Delete stock</b> <i>Note that can delete all the stock. To delete a part of the stock use inc/dec option.</i>
+    </li>
+</ul>
+<h2>Warehouse stock composed operations</h2>
+<ul>
+    <li>
+        <b>Split stock</b> <i>To split, decrement stock and add a new stock.</i>
+    </li>
+    <li>
+        <b>Merge stock</b> <i>To merge one stock with another, decrement/delete the first stock and add a new one to the same location of the other stock.</i>
+    </li>
+</ul>
+<h2>Warehouse stock basic operations</h2>
+<ul>
+    <li>
+        <b>Create container</b> into a location.
+    </li>
+    <li>
+        <b>Modify container</b>
+    </li>
+    <li>
+        <b>Move container</b>
+    </li>
+    <li>
+        <b>Delete container</b> <i>Only can delete a container if hasn't stock.</i>
+    </li>
+</ul>

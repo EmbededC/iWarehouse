@@ -227,6 +227,33 @@ class ContainerController extends Controller
 
         return $this->redirect($this->generateUrl('container'));
     }
+    
+    /**
+     * Displays a form to edit an existing Container entity.
+     *
+     * @Route("/{id}/move", name="container_move")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editLocationAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('CBWarehouseBundle:Container')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Container entity.');
+        }
+
+        $editForm = $this->createEditLocationForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
 
     /**
      * Creates a form to delete a Container entity by id.
@@ -243,5 +270,24 @@ class ContainerController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+    * Creates a form to edit a Container entity.
+    *
+    * @param Stock $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditLocationForm(Stock $entity)
+    {
+        $form = $this->createForm(new ContainerLocationType(), $entity, array(
+            'action' => $this->generateUrl('container_location_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
     }
 }
