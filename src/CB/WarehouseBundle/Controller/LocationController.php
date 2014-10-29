@@ -35,6 +35,60 @@ class LocationController extends Controller
             'entities' => $entities,
         );
     }
+    
+    /**
+     * Show Warehouse map
+     * Fixed url must be at top of page, because the program 
+     * evaluate any data received as location_id when showAction arrives.
+     *
+     * @Route("/map/{id}", name="location_map")
+     * @Template("CBWarehouseBundle:Location:map.html.twig")
+     */
+    public function mapAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $containerEntities = $em->getRepository('CBWarehouseBundle:Location')->findAllJoinedToContainer();
+        $allAislesEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle(0);
+        $maxXmaxYEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle($id);
+
+        return array(
+            'allAislesEntities' => $allAislesEntities,
+            'maxXmaxYEntities' => $maxXmaxYEntities,
+            'containerEntities' => $containerEntities,
+            'aisleId' => $id,
+        );
+    }
+    
+    /**
+     * Show Warehouse map
+     * Fixed url must be at top of page, because the program 
+     * evaluate any data received as location_id when showAction arrives.
+     *
+     * @Route("/map/{aisleId}/{id}", name="location_map_detail")
+     * @Template("CBWarehouseBundle:Location:map.html.twig")
+     */
+    public function mapDetailAction($aisleId, $id)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        
+        $containerEntities = $em->getRepository('CBWarehouseBundle:Location')->findAllJoinedToContainer();
+        $maxXmaxYEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle($aisleId);
+        $allAislesEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle(0);
+        $containerDetailEntities = $em->getRepository('CBWarehouseBundle:Container')->findDetailsByContainer($id);
+
+        return array(
+            'allAislesEntities' => $allAislesEntities,
+            'maxXmaxYEntities' => $maxXmaxYEntities,
+            'containerEntities' => $containerEntities,
+            'containerDetailEntities' => $containerDetailEntities,
+            'aisleId' => $aisleId,
+        );       
+        
+    }    
+    
     /**
      * Creates a new Location entity.
      *
@@ -244,4 +298,6 @@ class LocationController extends Controller
             ->getForm()
         ;
     }
+    
+    
 }

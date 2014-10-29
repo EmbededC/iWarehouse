@@ -31,6 +31,27 @@ class Location
     private $code;
     
     /**
+     * @var number
+     *
+     * @ORM\Column(name="aisle", type="string", length=50, unique = true)
+     */
+    private $aisle;
+    
+    /**
+     * @var number
+     *
+     * @ORM\Column(name="x", type="string", length=50, unique = true)
+     */
+    private $x;
+    
+    /**
+     * @var number
+     *
+     * @ORM\Column(name="y", type="string", length=50, unique = true)
+     */
+    private $y;    
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdDate", type="datetime")
@@ -88,6 +109,75 @@ class Location
     {
         return $this->code;
     }
+    
+    /**
+     * Set aisle
+     *
+     * @param string $aisle
+     * @return Location
+     */
+    public function setAisle($aisle)
+    {
+        $this->aisle = $aisle;
+
+        return $this;
+    }
+
+    /**
+     * Get aisle
+     *
+     * @return string 
+     */
+    public function getAisle()
+    {
+        return $this->aisle;
+    }
+    
+    /**
+     * Set x
+     *
+     * @param string $x
+     * @return Location
+     */
+    public function setX($x)
+    {
+        $this->x = $x;
+
+        return $this;
+    }
+
+    /**
+     * Get x
+     *
+     * @return string 
+     */
+    public function getX()
+    {
+        return $this->x;
+    }
+    
+    /**
+     * Set y
+     *
+     * @param string $y
+     * @return Location
+     */
+    public function setY($y)
+    {
+        $this->y = $y;
+
+        return $this;
+    }
+
+    /**
+     * Get y
+     *
+     * @return string 
+     */
+    public function getY()
+    {
+        return $this->y;
+    }    
    
     /**
      * Constructor

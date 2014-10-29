@@ -1,4 +1,9 @@
+
+cb_demo:
+    resource: "@CBDemoBundle/Controller"
+
 # CBWarehouseBundle routes
+
 _cb_warehouse:
     resource: "@CBWarehouseBundle/Controller"
 

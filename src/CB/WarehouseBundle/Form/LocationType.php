@@ -17,6 +17,9 @@ class LocationType extends AbstractType
         $builder
             ->add('code')
             ->add('locationType')
+            ->add('aisle')
+            ->add('x')
+            ->add('y')
         ;
     }
     
