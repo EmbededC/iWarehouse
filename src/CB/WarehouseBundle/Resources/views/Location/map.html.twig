@@ -44,7 +44,7 @@
                             {% for loc in containerEntities %}
                                 {% if loc.x == iX and loc.y == iY and loc.aisle == currentAisle 
                                      and loc.container_id is not null %}
-                                      <a href="{{ path('location_map_detail', { 'id': loc.container_id , 'aisleId' : loc.aisle }) }}"> {{ loc.container_code|slice(10,8) }} </a>
+                                     <a href="{{ path('location_map_detail', { 'id': loc.container_id , 'aisleId' : loc.aisle }) }}"> {{ loc.container_code|slice(10,8) }} </a><br>
                                 {% elseif loc.x == iX and loc.y == iY and loc.aisle == currentAisle 
                                      and loc.container_id is null%}
                                     EMPTY
@@ -61,27 +61,31 @@
     
 
     {% if containerDetailEntities is defined %}    
-        {% for con in containerDetailEntities %}
         <ul>
+        {% for con in containerDetailEntities %}
             <li>
                 Container No: {{ con.code }}
             </li>
             <li>
                 Location Code: {{ con.location_code }}
             </li>
-         
-            {% if con.product_name is not null %}
-            <li>
-                Product Code: {{ con.product_name }}
-            </li>
-            <li>
-                Quantity: {{ con.quantity }}
-            </li>
-            {% else %}
-                EMPTY CONTAINER
-            {% endif %}
-        </ul>
-        {% endfor %}
+        {% endfor %}  
+        <br>
+    
+        {% if containerStockEntities|length > 0 %}        
+            {% for stk in containerStockEntities %}
+                <li>
+                    Product Code: {{ stk.name }}
+                </li>
+                <li>
+                    Quantity: {{ stk.quantity }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}   
+            EMPTY CONTAINER
+            </ul>
+        {% endif %}
     {% endif %}
                 
     <ul>

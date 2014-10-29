@@ -78,12 +78,14 @@ class LocationController extends Controller
         $maxXmaxYEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle($aisleId);
         $allAislesEntities = $em->getRepository('CBWarehouseBundle:Location')->findMaxXandYbyAisle(0);
         $containerDetailEntities = $em->getRepository('CBWarehouseBundle:Container')->findDetailsByContainer($id);
+        $containerStockEntities = $em->getRepository('CBWarehouseBundle:Stock')->findStockByContainer($id);
 
         return array(
             'allAislesEntities' => $allAislesEntities,
             'maxXmaxYEntities' => $maxXmaxYEntities,
             'containerEntities' => $containerEntities,
             'containerDetailEntities' => $containerDetailEntities,
+            'containerStockEntities' => $containerStockEntities,
             'aisleId' => $aisleId,
         );       
         

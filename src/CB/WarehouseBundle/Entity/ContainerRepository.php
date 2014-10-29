@@ -29,15 +29,13 @@ class ContainerRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         
-        $query = $em->createQuery('SELECT c.id, c.code, p.name as product_name, l.code as location_code, s.quantity '
+        $query = $em->createQuery('SELECT c.id, c.code, l.code as location_code '
                 . 'FROM CBWarehouseBundle:Container c '
-                . 'LEFT JOIN CBWarehouseBundle:Stock s WITH s.objectId = c.id '
                 . 'LEFT JOIN CBWarehouseBundle:Location l WITH c.location = l.id '
-                . 'LEFT JOIN CBWarehouseBundle:Product p WITH p.id = s.product '
                 . 'WHERE c.id = ' . $containerId);
 
         return $query->getResult();
-        
-        
+         
     }
+        
 }
