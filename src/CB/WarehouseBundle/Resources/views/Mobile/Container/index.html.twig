@@ -1,0 +1,27 @@
+{% extends '::baseMobile.html.twig' %}
+
+{% block body -%}
+    
+    <div class="header">
+        READ CONTAINER CODE<br>
+        <input id="containerCode" class="mainField"></input>     
+    </div>
+    <div id="containerList">
+        <table class="container_table">
+            <thead>
+                <tr>
+                    <th>CONTAINER CODE</th>
+                    <th>LOCATION</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for con in containers%}
+            <tr>
+                <td>{{ con.code }}</td>
+                <td>{{ con.location_code }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>  
+        </table>
+    </div>
+{% endblock %}

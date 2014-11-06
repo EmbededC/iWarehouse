@@ -1,0 +1,110 @@
+{% extends '::baseMobile.html.twig' %}
+
+{% block body -%}
+     
+    <div class="header">
+        {% if action == 'new'%}
+            CONTAINER CREATION
+        {% elseif action == 'updated' %}    
+            CONTAINER DETAILS <script>alert('Contenedor actualizado!');</script>
+        {% elseif action == 'stockUpdated' %}    
+            CONTAINER DETAILS <script>alert('Stock actualizado!');</script>
+        {% elseif action == 'stockDeleted' %}    
+            CONTAINER DETAILS <script>alert('Stock eliminado!');</script>
+        {% elseif action == 'stockCreated' %}    
+            CONTAINER DETAILS <script>alert('Stock creado!');</script>
+        {% else %}
+            CONTAINER DETAILS
+        {% endif %}            
+
+    {#<div class="header">
+        <input id="containerCode" class="mainField" value="{{ entity.code }}"></input>     
+    </div>#}
+    </div>
+    
+    {{ form_start(form) }}
+    <table class="container_table">
+        <tr>
+            <td >
+                {{form_label(form.code)}}
+            </td>
+            <td >
+                {{ form_widget(form.code, { 'attr': {'class': 'formCodeField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.location)}}
+            </td>
+            <td >
+                {{ form_widget(form.location, { 'attr': {'class': 'formField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.containerType)}}
+            </td>
+            <td >
+                {{ form_widget(form.containerType, { 'attr': {'class': 'formField'} }) }}
+            </td>
+        </tr>
+    </table>
+    <table class="buttons_table">
+        <tr>
+            <td>
+                <div class="buttons">{{ form_widget(form.submit) }}</div>
+                {{ form_end(form) }}  
+            </td>
+            {% if delete_form is defined %}
+            <td>
+                <div class="buttons">{{ form(delete_form) }}</div>
+            </td>
+            {% endif %}
+            
+        </tr>
+    </table>
+     
+    {% if stock is defined %}
+        {% if stock|length > 0%}
+            <div class="header">
+                <form action="{{ path('stock_mobile_create', {'containerId' : containerId} ) }}">
+                   STOCK <button type="submit" class="bt_addStock">Add stock</button>
+                </form>
+            </div>
+            
+            <table class="container_table">
+                {% for stk in stock %}
+                    <tr>
+                        <td class="stockLabel">
+                            {{stk.name}} [{{stk.quantity}} UN]
+                        </td>
+                        <td>
+                            <form action="{{ path('stock_mobile_edit', {'containerId' : containerId, 'id' : stk.id}) }}">
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ path('stock_mobile_delete', {'containerId' : containerId, 'id' : stk.id }) }}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            <div class="header">
+                <form action="{{ path('stock_mobile_create', {'containerId' : containerId} ) }}">
+                   STOCK <button type="submit" class="bt_addStock">Add stock</button>
+                </form>
+            </div>
+            <div class="emptyContainer">EMPTY CONTAINER</div>
+        {% endif %}
+    {% endif %}
+                
+    <div class="buttons">
+        <form action="{{ path('container_mobile') }}">
+            <button type="submit">Back to the list</button>
+        </form>
+    </div>       
+
+{% endblock %}

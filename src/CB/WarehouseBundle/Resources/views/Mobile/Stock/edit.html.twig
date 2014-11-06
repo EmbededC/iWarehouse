@@ -1,0 +1,132 @@
+{% extends '::baseMobile.html.twig' %}
+
+{% block body -%}
+    <div class="header">
+        {% if action == "update" %}
+            STOCK EDIT - {{ containerCode }}
+        {% elseif action == "create" %}
+            STOCK CREATION - {{ containerCode }}
+        {% elseif action == "updateError" %}
+            STOCK EDIT - ERROR! {{ containerCode }}
+        {% endif %}
+    </div>
+    {% if idStock is defined %}
+        {{ idStock }}
+    {% endif%}
+    
+    <table class="container_table">
+        <tr>
+            <td>
+                <div class="buttons">
+                    <form action="{{ path('container_mobile_container', {'code' : containerCode }) }}">
+                        <button type="submit">Back to Container</button>
+                    </form>
+                </div>
+            </td>
+            <td>
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="buttons">{{ form_widget(form.submit) }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="container_table">
+        <tr>
+            <td>
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.quantity)}}
+            </td>
+            <td >
+                {{ form_widget(form.quantity, { 'attr': {'class': 'formCodeField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                B. Quantity
+            </td>
+            <td >
+                {{ form_widget(form.baseQuantity, { 'attr': {'class': 'formCodeField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.lot)}}
+            </td>
+            <td >
+                {{ form_widget(form.lot, { 'attr': {'class': 'formCodeField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.sn)}}
+            </td>
+            <td >
+                {{ form_widget(form.sn, { 'attr': {'class': 'formCodeField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.product)}}
+            </td>
+            <td >
+                {{ form_widget(form.product, { 'attr': {'class': 'formField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.presentation)}}
+            </td>
+            <td >
+                {{ form_widget(form.presentation, { 'attr': {'class': 'formField'} }) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.expiryDate)}}
+            </td>
+            <td >
+                {{ form_widget(form.expiryDate) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.bestBeforeDate)}}
+            </td>
+            <td >
+                {{ form_widget(form.bestBeforeDate) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.recivedDate)}}
+            </td>
+            <td >
+                {{ form_widget(form.recivedDate) }}
+            </td>
+        </tr>
+        <tr>
+            <td >
+                {{form_label(form.productionDate)}}
+            </td>
+            <td >
+                {{ form_widget(form.productionDate) }}
+            </td>
+        </tr>
+    </table>
+    <div class="invisible">
+        {{ form_widget(form.objectType, { 'attr': {'value': '0'} }) }}
+        {{ form_widget(form.objectId, { 'attr': {'value': containerId } }) }}
+        {{ form_end(form) }}
+    </div>
+
+    
+
+{% endblock %}
