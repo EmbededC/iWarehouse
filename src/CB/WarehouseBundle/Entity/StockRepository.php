@@ -113,4 +113,18 @@ class StockRepository extends EntityRepository
 //
 //        $users = $query->getResult();
     }
+    
+    public function findStockByContainer($id)
+    {
+        $em = $this->getEntityManager();
+        
+        $query = $em->createQuery('SELECT s.quantity, p.name, s.id '
+                . 'FROM CBWarehouseBundle:Stock s '                 
+                . 'LEFT JOIN CBWarehouseBundle:Container c WITH c.id = s.objectId ' 
+                . 'LEFT JOIN CBWarehouseBundle:Product p WITH p.id = s.product '
+                . 'WHERE c.id =' . $id);
+
+        return $query->getResult();
+    }
+    
 }

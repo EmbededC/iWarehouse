@@ -1,6 +1,11 @@
+
+cb_demo:
+    resource: "@CBDemoBundle/Controller"
+
 # CBWarehouseBundle routes
+
 _cb_warehouse:
-    resource: "@CBWarehouseBundle/Controller"
+    resource: "@CBWarehouseBundle/Controller"   
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
@@ -54,3 +59,5 @@ fos_user_change_password:
 #sonata_user:
 #    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
 #    prefix: /admin
+
+# app/config/routing.yml

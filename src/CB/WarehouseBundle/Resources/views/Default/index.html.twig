@@ -34,8 +34,9 @@
     </tbody>
 </table>
 
-<h1>Warehouse location list</h1>
-<p><a href="{{ path('location_new') }}"><b>Create location</b></a></p>
+<h1><a href="{{ path('location') }}">Warehouse location list</a></h1>
+<p><a href="{{ path('location_new') }}"><b>Create location</b></a>&nbsp;&nbsp;
+<a href="{{ path('location_map', { 'id' : 0 }) }}"><b>Show map</b></a></p>
 <table class="records_list">
     <thead>
         <tr>
@@ -92,6 +93,29 @@
     {% endfor %}
     </tbody>
 </table>
+    
+<h1>Providers list</h1>
+<p><a href="{{ path('provider_new') }}"><b>Create provider</b></a></p>
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for provEntity in provEntities %}
+        <tr>
+            <td>{{ provEntity.name }}</td>            
+            <td>{{ provEntity.description }}</td> 
+            <td></td>            
+            <td></td>            
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>    
 
 <h1>Help</h1>
 <h2>Warehouse configuration operations</h2>

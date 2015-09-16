@@ -1,0 +1,116 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Location Map</h1>
+    {% set currentX = 1 %}
+    {% set currentY = 1 %}
+    {% set maxX = 0 %}
+    {% set maxY = 0 %}
+    
+    <select onchange="location = this.options[this.selectedIndex].value;">
+        <option selected="true"></option>
+        <option value="{{ path('location_map', { 'id' : 0 }) }}">All warehouse</option>
+        {% for aisle in allAislesEntities %}    
+            <option value="{{ path('location_map', { 'id' : aisle.aisle }) }}">Aisle {{ aisle.aisle }}</option>
+        {% endfor %}
+    </select>
+    
+    {% for location in maxXmaxYEntities %}    
+        {% set currentAisle = location.aisle %}
+        {% set maxX = location.x %}
+        {% set maxY = location.y %}
+            
+            <p>Aisle {{ location.aisle }}</p>
+            <div style="display:table">
+               {% for iY in maxY..currentY %}
+                   <div style="display:table-row; height: 25px">
+                       {% for iX in currentX..maxX %}
+                            {# Check if location exist #}
+                            {% set locationCode = "%03d"|format(location.aisle) ~ "%03d"|format(iX) ~ "%03d"|format(iY) %}
+                            {% set checkLocation = 0 %}
+                            {% for loc in containerEntities %}
+                                {% if loc.code == locationCode %}
+                                {% set checkLocation = 1 %}
+                                {% endif %}
+                            {% endfor %}
+                           
+                            {% if checkLocation == 1 %}
+                            <div style="display:table-cell; border-style:solid; min-width: 100px" title="{{ locationCode }}">                                  
+                            {% else %}
+                            <div style="display:table-cell; border-style:solid; min-width: 100px; background-color:grey">                                  
+                            {% endif %}
+                            
+                            {# Check if there are any container at location #}
+                            {% for loc in containerEntities %}
+                                {% if loc.x == iX and loc.y == iY and loc.aisle == currentAisle 
+                                     and loc.container_id is not null %}
+                                     <a href="{{ path('location_map_detail', { 'id': loc.container_id , 'aisleId' : loc.aisle }) }}"> {{ loc.container_code|slice(10,8) }} </a><br>
+                                {% elseif loc.x == iX and loc.y == iY and loc.aisle == currentAisle 
+                                     and loc.container_id is null%}
+                                    EMPTY
+                                {% endif %}
+                             {% endfor %}
+                            </div>
+                       {% endfor %}
+                   </div>
+               {% endfor %}
+
+           </div> 
+    {% endfor %}
+    
+    
+
+    {% if containerDetailEntities is defined %}    
+        <ul>
+        {% for con in containerDetailEntities %}
+            <li>
+                Container No: {{ con.code }}
+            </li>
+            <li>
+                Location Code: {{ con.location_code }}
+            </li>
+        {% endfor %}  
+        <br>
+    
+        {% if containerStockEntities|length > 0 %}        
+            {% for stk in containerStockEntities %}
+                <li>
+                    Product Code: {{ stk.name }}
+                </li>
+                <li>
+                    Quantity: {{ stk.quantity }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}   
+            EMPTY CONTAINER
+            </ul>
+        {% endif %}
+    {% endif %}
+                
+    <ul>
+        {% if aisleId != 0 %} 
+            <li>
+                <a href="{{ path('location_map', { 'id' : 0 }) }}">
+                    Back to all warehouse map
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href="{{ path('default_index') }}">
+                Back to HomePage
+            </a>
+        </li>
+    </ul>
+                
+                
+    
+                
+    
+
+                
+                
+                
+                
+                
+    {% endblock %}
